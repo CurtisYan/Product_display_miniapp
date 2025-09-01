@@ -1,0 +1,32 @@
+{
+	"pages": [
+		{ "path": "pages/showcase/index", "style": { "navigationBarTitleText": "产品展示" } },
+		{ "path": "pages/category/index", "style": { "navigationBarTitleText": "产品分类" } },
+		{ "path": "pages/contact/index", "style": { "navigationBarTitleText": "联系我们" } }
+	],
+
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "产品展示",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	
+	"tabBar": {
+		"custom": true,
+		"list": [
+			{
+				"pagePath": "pages/category/index",
+				"text": "分类"
+			},
+			{
+				"pagePath": "pages/showcase/index",
+				"text": "展示"
+			},
+			{
+				"pagePath": "pages/contact/index",
+				"text": "联系"
+			}
+		]
+	}
+}
