@@ -25,11 +25,18 @@
     npm install
     ```
 
-3.  **配置联系信息**
-    将 `src/config.example.js` 复制一份并重命名为 `src/config.js`，然后填入真实的联系方式。
+3.  **配置联系信息和图片资源**
+    - 将 `src/config.example.js` 复制一份并重命名为 `src/config.js`，然后填入真实的联系方式。
     ```bash
     cp src/config.example.js src/config.js
     ```
+    
+    - 将 `src/static/images/products/imageUrls.example.js` 复制一份并重命名为 `imageUrls.js`，然后填入实际的图片 URL。
+    ```bash
+    cp src/static/images/products/imageUrls.example.js src/static/images/products/imageUrls.js
+    ```
+    
+    > **注意**：`imageUrls.js` 文件包含了所有产品图片的 URL 映射，每个变量名后都有中文注释说明对应的图片名称，方便识别和管理。此文件已被添加到 `.gitignore`，不会被提交到 Git 仓库中。
 
 4.  **运行到微信开发者工具**
     ```bash

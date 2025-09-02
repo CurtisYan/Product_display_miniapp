@@ -1,5 +1,6 @@
 // 统一产品库 - 集中管理所有产品数据
 // 分类页和展示页均从此库引用，确保数据一致性
+import { IMAGE_URLS } from '../static/images/products/imageUrls.js'
 
 // 包装材料产品数据库
 export const PRODUCTS = {
@@ -8,7 +9,7 @@ export const PRODUCTS = {
     name: '食品级原料',
     sub: '',
     description: '',
-    images: ['/static/images/products/食品级原料.jpg'],
+    images: [IMAGE_URLS.FOOD_GRADE_MATERIAL],
     category: 'company_display'
   },
   '整洁车间': {
@@ -16,7 +17,7 @@ export const PRODUCTS = {
     name: '整洁车间',
     sub: '',
     description: '',
-    images: ['/static/images/products/整洁车间.jpg'],
+    images: [IMAGE_URLS.CLEAN_WORKSHOP],
     category: 'company_display'
   },
   '大型仓库': {
@@ -24,7 +25,7 @@ export const PRODUCTS = {
     name: '大型仓库',
     sub: '',
     description: '',
-    images: ['/static/images/products/大型仓库.png'],
+    images: [IMAGE_URLS.LARGE_WAREHOUSE],
     category: 'company_display'
   },
   '机器设备': {
@@ -32,7 +33,11 @@ export const PRODUCTS = {
     name: '机器设备',
     sub: '',
     description: '',
-    images: ['/static/images/products/机器设备 1.jpg','/static/images/products/机器设备 2.jpg','/static/images/products/机器设备 3.jpg'],
+    images: [
+      IMAGE_URLS.MACHINE_EQUIPMENT_1,
+      IMAGE_URLS.MACHINE_EQUIPMENT_2,
+      IMAGE_URLS.MACHINE_EQUIPMENT_3
+    ],
     category: 'company_display'
   },
   '珍珠棉': {
@@ -40,7 +45,15 @@ export const PRODUCTS = {
     name: '珍珠棉',
     sub: '',
     description: '',
-    images: ['/static/images/products/珍珠棉 1.png', '/static/images/products/珍珠棉 2.png', '/static/images/products/珍珠棉 3.png', '/static/images/products/珍珠棉 4.jpg', '/static/images/products/珍珠棉 5.jpg', '/static/images/products/珍珠棉 6.jpg', '/static/images/products/珍珠棉 7.jpg'],
+    images: [
+      IMAGE_URLS.PEARL_COTTON_1,
+      IMAGE_URLS.PEARL_COTTON_2,
+      IMAGE_URLS.PEARL_COTTON_3,
+      IMAGE_URLS.PEARL_COTTON_4,
+      IMAGE_URLS.PEARL_COTTON_5,
+      IMAGE_URLS.PEARL_COTTON_6,
+      IMAGE_URLS.PEARL_COTTON_7
+    ],
     category: 'Foam plastic'
   },
   '海绵': {
@@ -48,7 +61,11 @@ export const PRODUCTS = {
     name: '海绵',
     sub: '',
     description: '',
-    images: ['/static/images/products/海绵 1.jpg', '/static/images/products/海绵 2.jpg', '/static/images/products/海绵 3.jpg'],
+    images: [
+      IMAGE_URLS.SPONGE_1,
+      IMAGE_URLS.SPONGE_2,
+      IMAGE_URLS.SPONGE_3
+    ],
     category: 'Foam plastic'
   },
   '出口型自封袋': {
@@ -56,7 +73,7 @@ export const PRODUCTS = {
     name: '出口型自封袋',
     sub: '',
     description: '',
-    images: ['/static/images/products/出口型自封袋.jpg'],
+    images: [IMAGE_URLS.EXPORT_ZIPPER_BAG],
     category: 'Foam_plastic'
   },
   '自封口 PE 袋': {
@@ -64,7 +81,7 @@ export const PRODUCTS = {
     name: '自封口 PE 袋',
     sub: '',
     description: '',
-    images: ['/static/images/products/自封口 PE 袋.jpg'],
+    images: [IMAGE_URLS.PE_ZIPPER_BAG],
     category: 'Foam_plastic'
   },
   '静电袋': {
@@ -72,7 +89,7 @@ export const PRODUCTS = {
     name: '静电袋',
     sub: '',
     description: '',
-    images: ['/static/images/products/静电袋.jpg'],
+    images: [IMAGE_URLS.STATIC_BAG],
     category: 'Foam_plastic'
   },
   '出口 PE 袋': {
@@ -80,7 +97,7 @@ export const PRODUCTS = {
     name: '出口 PE 袋',
     sub: '',
     description: '',
-    images: ['/static/images/products/出口 PE 袋.png'],
+    images: [IMAGE_URLS.EXPORT_PE_BAG],
     category: 'Foam_plastic'
   },
   'PE 袋': {
@@ -88,7 +105,7 @@ export const PRODUCTS = {
     name: 'PE 袋',
     sub: '',
     description: '',
-    images: ['/static/images/products/PE 袋.jpg'],
+    images: [IMAGE_URLS.PE_BAG],
     category: 'Foam_plastic'
   },
   '黑色导电袋': {
@@ -96,7 +113,7 @@ export const PRODUCTS = {
     name: '黑色导电袋',
     sub: '',
     description: '',
-    images: ['/static/images/products/黑色导电袋.png'],
+    images: [IMAGE_URLS.BLACK_CONDUCTIVE_BAG],
     category: 'Foam_plastic'
   },
   '黑色防静电袋': {
@@ -104,7 +121,7 @@ export const PRODUCTS = {
     name: '黑色防静电袋',
     sub: '',
     description: '',
-    images: ['/static/images/products/黑色防静电袋.jpg'],
+    images: [IMAGE_URLS.BLACK_ANTISTATIC_BAG],
     category: 'Foam_plastic'
   },
   '网格防静电袋': {
@@ -112,7 +129,7 @@ export const PRODUCTS = {
     name: '网格防静电袋',
     sub: '',
     description: '',
-    images: ['/static/images/products/网格防静电袋.jpg'],
+    images: [IMAGE_URLS.GRID_ANTISTATIC_BAG],
     category: 'Foam_plastic'
   }
 }

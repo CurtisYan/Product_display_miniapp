@@ -1,5 +1,6 @@
 # 敏感配置文件
 /src/config.js
+/src/static/images/products/imageUrls.js
 
 # Logs
 logs

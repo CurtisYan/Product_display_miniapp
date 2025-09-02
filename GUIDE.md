@@ -71,8 +71,8 @@ export const contactInfo = {
   sub: '商品简短描述',          // 副标题或简短描述
   description: '详细描述',      // 商品详细描述
   images: [                   // 商品图片数组（第一张自动作为主图）
-    '/static/images/products/product1.png',
-    '/static/images/products/product2.png'
+    'https://example.oss-cn-region.aliyuncs.com/image1.jpg',
+    'https://example.oss-cn-region.aliyuncs.com/image2.jpg'
   ],
   category: 'bags'             // 商品分类标记（bags/bottles/boxes）
 }
