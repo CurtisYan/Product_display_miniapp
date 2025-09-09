@@ -119,7 +119,7 @@
               height="456rpx"
               border-radius="12rpx"
               :show-spinner="true"
-              show-menu-by-longpress="true"
+              :showMenuByLongpress="true"
               @error="onQRImageError"
               @load="onQRImageLoad"
             />
