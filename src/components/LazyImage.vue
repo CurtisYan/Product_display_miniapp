@@ -16,6 +16,7 @@
       :src="src"
       :mode="mode"
       :style="imageStyle"
+      :show-menu-by-longpress="showMenuByLongpress"
       @load="onImageLoad"
       @error="onImageError"
       v-show="loaded || error"
@@ -60,6 +61,10 @@ export default {
       default: false
     },
     immediate: {
+      type: Boolean,
+      default: false
+    },
+    showMenuByLongpress: {
       type: Boolean,
       default: false
     }
