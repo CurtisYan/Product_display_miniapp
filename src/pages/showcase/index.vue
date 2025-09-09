@@ -165,7 +165,8 @@ export default {
       pageOptions: {},
       // 防止双击
       isOpeningDetail: false,
-      openDetailTimer: null
+      openDetailTimer: null,
+      hasHandledShareParams: false  // 添加标记位，防止重复处理分享参数
     }
   },
   computed: {
@@ -214,9 +215,10 @@ export default {
   onShow() {
     // 页面显示时通知导航栏更新状态
     uni.$emit('updateTabBar')
-    // 每次页面显示时处理分享参数
-    // 放在 onShow 而不是 created，确保能正确处理
-    this.handleShareParams()
+    // 只在首次显示且有分享参数时处理分享参数
+    if (!this.hasHandledShareParams) {
+      this.handleShareParams()
+    }
   },
   onLoad(options) {
     // 保存页面参数，供后续使用
@@ -340,12 +342,16 @@ export default {
         } else {
           console.log('未找到商品ID:', options.productId)
         }
+        
+        // 标记已处理分享参数
+        this.hasHandledShareParams = true
       }
       
       // 记录分享来源
       if (options.from === 'share') {
         console.log('从分享进入，商品名：', decodeURIComponent(options.productName || ''))
         // 可以进行统计或其他操作
+        this.hasHandledShareParams = true
       }
       // #endif
     },
