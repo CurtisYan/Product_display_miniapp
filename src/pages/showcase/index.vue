@@ -213,11 +213,19 @@ export default {
     this.loadFavorites()
   },
   onShow() {
+    console.log('onShow 触发 - 已处理分享参数标记:', this.hasHandledShareParams)
     // 页面显示时通知导航栏更新状态
     uni.$emit('updateTabBar')
-    // 只在首次显示且有分享参数时处理分享参数
+    
+    // 只在首次显示且未处理过分享参数时处理分享参数
     if (!this.hasHandledShareParams) {
-      this.handleShareParams()
+      console.log('onShow - 开始处理分享参数')
+      // 延迟一点确保页面完全加载
+      setTimeout(() => {
+        this.handleShareParams()
+      }, 100)
+    } else {
+      console.log('onShow - 分享参数已处理过，跳过')
     }
   },
   onLoad(options) {
@@ -226,12 +234,23 @@ export default {
     console.log('onLoad 参数:', this.pageOptions)
   },
   // 微信小程序分享配置
-  onShareAppMessage() {
-    // 如果有选中的商品，分享该商品
-    if (this.selectedProduct) {
+  onShareAppMessage(res) {
+    console.log('分享触发:', res)
+    
+    // 如果当前有打开的商品详情弹窗，分享该商品
+    if (this.showProductDetail && this.selectedProduct) {
+      console.log('分享商品:', this.selectedProduct.name)
       return setupPageShare({ product: this.selectedProduct })
     }
+    
+    // 如果有选中的商品但弹窗未打开，也分享该商品
+    if (this.selectedProduct) {
+      console.log('分享选中商品:', this.selectedProduct.name)
+      return setupPageShare({ product: this.selectedProduct })
+    }
+    
     // 否则分享页面
+    console.log('分享页面')
     return {
       title: '发现了一些不错的产品',
       path: '/pages/showcase/index',
@@ -324,14 +343,31 @@ export default {
       const currentPage = pages[pages.length - 1]
       const options = currentPage.options || {}
       
-      console.log('页面参数:', options)
+      console.log('处理分享参数 - 页面参数:', options)
+      console.log('处理分享参数 - 当前商品数量:', this.products.length)
+      console.log('处理分享参数 - 已处理标记:', this.hasHandledShareParams)
       
       // 如果有商品ID参数，直接打开对应商品
-      if (options.productId) {
+      if (options.productId && !this.hasHandledShareParams) {
+        console.log('检测到商品ID参数:', options.productId)
+        
+        // 如果商品数据还没加载完成，等待加载
+        if (this.products.length === 0) {
+          console.log('商品数据未加载，等待加载完成...')
+          // 延迟重试
+          setTimeout(() => {
+            this.handleShareParams()
+          }, 500)
+          return
+        }
+        
         // 先查找商品
         const product = this.products.find(p => p.id == options.productId)
         if (product) {
           console.log('找到分享的商品:', product.name)
+          // 标记已处理分享参数（在打开前就标记，避免重复处理）
+          this.hasHandledShareParams = true
+          
           // 使用 nextTick 确保页面渲染完成后再打开
           this.$nextTick(() => {
             // 再延迟一点确保动画流畅
@@ -340,15 +376,14 @@ export default {
             }, 300)
           })
         } else {
-          console.log('未找到商品ID:', options.productId)
+          console.log('未找到商品ID:', options.productId, '可用商品:', this.products.map(p => ({id: p.id, name: p.name})))
+          // 即使没找到商品也要标记已处理，避免无限重试
+          this.hasHandledShareParams = true
         }
-        
-        // 标记已处理分享参数
-        this.hasHandledShareParams = true
       }
       
       // 记录分享来源
-      if (options.from === 'share') {
+      if (options.from === 'share' && !this.hasHandledShareParams) {
         console.log('从分享进入，商品名：', decodeURIComponent(options.productName || ''))
         // 可以进行统计或其他操作
         this.hasHandledShareParams = true

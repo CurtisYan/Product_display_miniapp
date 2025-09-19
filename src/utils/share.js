@@ -11,18 +11,21 @@
  * @param {String} options.imageUrl - 分享图片
  */
 export function setupPageShare(options = {}) {
+  console.log('setupPageShare 被调用:', options)
+  
   // 设置分享回调
   const shareOptions = {
     title: options.title || '发现了一个不错的产品',
-    path: options.path || '/pages/index/index',
+    path: options.path || '/pages/showcase/index',
     imageUrl: options.imageUrl || ''
   }
   
   // 如果有商品信息，构建带参数的分享路径
-  if (options.product) {
+  if (options.product && options.product.id) {
+    const product = options.product
     const params = {
-      productId: options.product.id,
-      productName: encodeURIComponent(options.product.name || ''),
+      productId: product.id,
+      productName: encodeURIComponent(product.name || ''),
       from: 'share'
     }
     
@@ -31,9 +34,20 @@ export function setupPageShare(options = {}) {
       .map(key => `${key}=${params[key]}`)
       .join('&')
     
-    shareOptions.title = `【${options.product.name}】${options.product.sub || ''}`
+    // 设置分享标题，确保商品名称显示
+    const productTitle = product.name || '产品'
+    const productSub = product.sub || product.description || ''
+    shareOptions.title = productSub ? `【${productTitle}】${productSub}` : `【${productTitle}】`
+    
+    // 设置分享路径
     shareOptions.path = `/pages/showcase/index?${queryString}`
-    shareOptions.imageUrl = options.product.image || options.product.images?.[0] || ''
+    
+    // 设置分享图片
+    shareOptions.imageUrl = product.image || product.images?.[0] || ''
+    
+    console.log('生成商品分享配置:', shareOptions)
+  } else {
+    console.log('生成页面分享配置:', shareOptions)
   }
   
   return shareOptions

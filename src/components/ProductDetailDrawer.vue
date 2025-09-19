@@ -356,6 +356,8 @@ export default {
     
     // 处理分享
     handleShare() {
+      console.log('ProductDetailDrawer - 处理分享:', this.product?.name)
+      
       // #ifdef MP-WEIXIN
       this.$refs.shareGuide?.show()
       saveShareRecord(this.product, 'menu')
@@ -365,6 +367,7 @@ export default {
       this.showShareMenu()
       // #endif
       
+      // 通知父组件更新选中的商品，确保分享时使用正确的商品信息
       this.$emit('share', this.product)
     },
     
