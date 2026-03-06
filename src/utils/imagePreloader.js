@@ -1,4 +1,5 @@
 // 图片预加载工具类
+import { fetchProducts } from '../utils/api.js'
 class ImagePreloader {
   constructor() {
     this.preloadedImages = new Map()
@@ -113,20 +114,17 @@ class ImagePreloader {
   }
 
   // 获取产品图片列表（从产品数据中提取）
-  getProductImages() {
+  async getProductImages() {
     try {
-      // 动态导入产品数据，避免循环依赖
-      const { PRODUCTS } = require('../shared/products.js')
+      const list = await fetchProducts()
       const productImages = []
-      
-      Object.values(PRODUCTS).forEach(product => {
-        if (product.images && Array.isArray(product.images)) {
+      ;(Array.isArray(list) ? list : []).forEach(product => {
+        if (product && Array.isArray(product.images)) {
           productImages.push(...product.images)
         }
       })
-      
-      // 去重
-      return [...new Set(productImages)].filter(url => url && url.startsWith('http'))
+      // 去重，仅保留 http(s)
+      return [...new Set(productImages)].filter(url => typeof url === 'string' && /^https?:\/\//.test(url))
     } catch (error) {
       console.warn('获取产品图片列表失败:', error)
       return []
@@ -134,20 +132,18 @@ class ImagePreloader {
   }
 
   // 智能预加载策略 - 优先加载首页和热门产品图片
-  getHighPriorityImages() {
+  async getHighPriorityImages() {
     try {
-      const { getShowcaseProducts } = require('../shared/products.js')
-      const showcaseProducts = getShowcaseProducts()
+      const list = await fetchProducts()
+      const products = Array.isArray(list) ? list : []
       const priorityImages = []
-      
-      // 获取前6个展示产品的图片（首屏显示）
-      showcaseProducts.slice(0, 6).forEach(product => {
-        if (product.images && product.images.length > 0) {
-          priorityImages.push(product.images[0]) // 只预加载第一张图片
+      // 取前6个产品的第一张图片作为首屏预加载
+      products.slice(0, 6).forEach(p => {
+        if (Array.isArray(p.images) && p.images.length > 0) {
+          priorityImages.push(p.images[0])
         }
       })
-      
-      return [...new Set(priorityImages)].filter(url => url && url.startsWith('http'))
+      return [...new Set(priorityImages)].filter(url => typeof url === 'string' && /^https?:\/\//.test(url))
     } catch (error) {
       console.warn('获取高优先级图片列表失败:', error)
       return []
@@ -167,7 +163,7 @@ class ImagePreloader {
       console.log(`静态图片预加载完成: ${staticSuccessCount}/${staticImages.length} 张成功`)
       
       // 第二阶段：预加载首屏产品图片（中优先级）
-      const priorityImages = this.getHighPriorityImages()
+      const priorityImages = await this.getHighPriorityImages()
       if (priorityImages.length > 0) {
         console.log(`第二阶段：预加载首屏产品图片 ${priorityImages.length} 张...`)
         const priorityResults = await this.preloadImages(priorityImages)
@@ -180,12 +176,8 @@ class ImagePreloader {
         this.preloadRemainingImages()
       }, 2000) // 2秒后开始预加载其他图片
       
-      const prioritySuccessCount = priorityImages.length > 0 ? 
-        (await this.preloadImages(priorityImages)).filter(r => r.status === 'fulfilled').length : 0
-      
-      const totalSuccess = staticSuccessCount + prioritySuccessCount
-      console.log(`初始预加载完成，成功加载 ${totalSuccess} 张图片`)
-      return { staticResults, prioritySuccessCount }
+      console.log(`初始预加载完成，成功加载 ${staticSuccessCount} 张静态图片，首屏图片已触发预加载`)
+      return { staticResults, priorityImagesCount: Array.isArray(priorityImages) ? priorityImages.length : 0 }
     } catch (error) {
       console.error('预加载过程出错:', error)
       return { staticResults: [], priorityImages: [] }
@@ -197,8 +189,8 @@ class ImagePreloader {
     console.log('第三阶段：开始延迟预加载其他产品图片...')
     
     try {
-      const allProductImages = this.getProductImages()
-      const priorityImages = this.getHighPriorityImages()
+      const allProductImages = await this.getProductImages()
+      const priorityImages = await this.getHighPriorityImages()
       
       // 过滤掉已经预加载的图片
       const remainingImages = allProductImages.filter(img => 
@@ -255,13 +247,14 @@ class ImagePreloader {
   // 手动预加载特定产品的图片
   async preloadProductImages(productIds) {
     try {
-      const { getProducts } = require('../shared/products.js')
-      const products = getProducts(productIds)
+      const list = await fetchProducts()
+      const all = Array.isArray(list) ? list : []
+      const set = new Set(productIds || [])
       const imagesToLoad = []
-      
-      products.forEach(product => {
-        if (product && product.images) {
-          imagesToLoad.push(...product.images)
+      all.forEach(p => {
+        const id = p.id ?? p.product_id
+        if (set.has(id) && Array.isArray(p.images)) {
+          imagesToLoad.push(...p.images)
         }
       })
       

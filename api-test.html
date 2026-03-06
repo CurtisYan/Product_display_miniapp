@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API测试 - https://admin.asiay.asia/api/miniapp</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section { 
+            margin: 20px 0; 
+            padding: 15px; 
+            border: 1px solid #ddd; 
+            border-radius: 5px;
+        }
+        .result { 
+            background: #f8f9fa; 
+            padding: 15px; 
+            margin: 10px 0; 
+            white-space: pre-wrap; 
+            border-radius: 4px;
+            font-family: monospace;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .success { 
+            background: #d4edda; 
+            color: #155724; 
+            border: 1px solid #c3e6cb;
+        }
+        .error { 
+            background: #f8d7da; 
+            color: #721c24; 
+            border: 1px solid #f5c6cb;
+        }
+        .loading {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        button { 
+            padding: 10px 20px; 
+            margin: 5px; 
+            cursor: pointer; 
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        .api-info {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-success { background: #28a745; }
+        .status-error { background: #dc3545; }
+        .status-loading { background: #ffc107; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>API连接测试</h1>
+        <div class="api-info">
+            <strong>测试目标：</strong> https://admin.asiay.asia/api/miniapp<br>
+            <strong>说明：</strong> 验证小程序API接口是否能正常访问和返回数据
+        </div>
+        
+        <div class="test-section">
+            <h3><span id="company-status" class="status-indicator"></span>1. 公司信息API测试</h3>
+            <p><strong>接口：</strong> GET /api/miniapp/company</p>
+            <button onclick="testCompanyAPI()" id="company-btn">测试公司信息</button>
+            <div id="company-result" class="result">点击按钮开始测试...</div>
+        </div>
+        
+        <div class="test-section">
+            <h3><span id="products-status" class="status-indicator"></span>2. 产品列表API测试</h3>
+            <p><strong>接口：</strong> GET /api/miniapp/products</p>
+            <button onclick="testProductsAPI()" id="products-btn">测试产品列表</button>
+            <div id="products-result" class="result">点击按钮开始测试...</div>
+        </div>
+        
+        <div class="test-section">
+            <h3><span id="categories-status" class="status-indicator"></span>3. 分类列表API测试</h3>
+            <p><strong>接口：</strong> GET /api/miniapp/categories</p>
+            <button onclick="testCategoriesAPI()" id="categories-btn">测试分类列表</button>
+            <div id="categories-result" class="result">点击按钮开始测试...</div>
+        </div>
+
+        <div class="test-section">
+            <h3>4. 批量测试</h3>
+            <button onclick="testAllAPIs()" id="all-btn">测试所有API</button>
+            <button onclick="clearResults()" style="background: #6c757d;">清空结果</button>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://admin.asiay.asia/api/miniapp';
+        
+        function updateStatus(id, status) {
+            const statusEl = document.getElementById(id + '-status');
+            statusEl.className = 'status-indicator status-' + status;
+        }
+        
+        async function testAPI(endpoint, resultId, buttonId, statusId) {
+            const resultDiv = document.getElementById(resultId);
+            const button = document.getElementById(buttonId);
+            
+            // 设置加载状态
+            resultDiv.textContent = '正在测试...';
+            resultDiv.className = 'result loading';
+            button.disabled = true;
+            updateStatus(statusId, 'loading');
+            
+            const startTime = Date.now();
+            
+            try {
+                const response = await fetch(`${API_BASE}${endpoint}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    // 设置超时
+                    signal: AbortSignal.timeout(10000)
+                });
+                
+                const endTime = Date.now();
+                const duration = endTime - startTime;
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.textContent = `✅ 请求成功 (${duration}ms)\n\n状态码: ${response.status}\n响应数据:\n${JSON.stringify(data, null, 2)}`;
+                    resultDiv.className = 'result success';
+                    updateStatus(statusId, 'success');
+                } else {
+                    const errorText = await response.text();
+                    resultDiv.textContent = `❌ 请求失败 (${duration}ms)\n\n状态码: ${response.status}\n错误信息:\n${errorText}`;
+                    resultDiv.className = 'result error';
+                    updateStatus(statusId, 'error');
+                }
+            } catch (error) {
+                const endTime = Date.now();
+                const duration = endTime - startTime;
+                
+                let errorMessage = error.message;
+                if (error.name === 'TimeoutError') {
+                    errorMessage = '请求超时 (超过10秒)';
+                } else if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                    errorMessage = '网络连接失败，可能是CORS问题或服务器不可达';
+                }
+                
+                resultDiv.textContent = `❌ 请求异常 (${duration}ms)\n\n错误类型: ${error.name}\n错误信息: ${errorMessage}\n\n详细信息:\n${error.stack || error.toString()}`;
+                resultDiv.className = 'result error';
+                updateStatus(statusId, 'error');
+            } finally {
+                button.disabled = false;
+            }
+        }
+        
+        async function testCompanyAPI() {
+            await testAPI('/company', 'company-result', 'company-btn', 'company');
+        }
+        
+        async function testProductsAPI() {
+            await testAPI('/products', 'products-result', 'products-btn', 'products');
+        }
+        
+        async function testCategoriesAPI() {
+            await testAPI('/categories', 'categories-result', 'categories-btn', 'categories');
+        }
+        
+        async function testAllAPIs() {
+            const allBtn = document.getElementById('all-btn');
+            allBtn.disabled = true;
+            allBtn.textContent = '测试中...';
+            
+            await testCompanyAPI();
+            await new Promise(resolve => setTimeout(resolve, 1000)); // 等待1秒
+            
+            await testProductsAPI();
+            await new Promise(resolve => setTimeout(resolve, 1000)); // 等待1秒
+            
+            await testCategoriesAPI();
+            
+            allBtn.disabled = false;
+            allBtn.textContent = '测试所有API';
+        }
+        
+        function clearResults() {
+            const resultDivs = document.querySelectorAll('.result');
+            resultDivs.forEach(div => {
+                div.textContent = '点击按钮开始测试...';
+                div.className = 'result';
+            });
+            
+            const statusDivs = document.querySelectorAll('.status-indicator');
+            statusDivs.forEach(div => {
+                div.className = 'status-indicator';
+            });
+        }
+        
+        // 页面加载完成后显示当前时间
+        window.onload = function() {
+            console.log('API测试页面加载完成');
+            console.log('测试目标:', API_BASE);
+        };
+    </script>
+</body>
+</html>
