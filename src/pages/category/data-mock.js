@@ -1,58 +1,80 @@
-// 模拟 API 数据，实际项目中应从服务器获取
-import { getProducts } from '../../shared/products.js'
+// 改造：从服务器获取分类与产品数据（小程序公开API）
+import { fetchCategories as fetchCategoriesApi, fetchProducts } from '../../utils/api.js'
 
-// 分类结构定义 - 仅维护产品ID列表，具体产品数据从统一产品库获取
-const categoryStructure = [
-  {
-    id: 'packaging',
-    name: '塑料包装',
-    children: [
-      {
-        id: 'Foam_plastic',
-        name: '发泡塑料',
-        productIds: ['珍珠棉', '海绵']
-      },
-      {
-        id: 'Plastic_bags',
-        name: '塑料包装袋',
-        productIds: ['出口型自封袋', '自封口 PE 袋', '静电袋', '出口 PE 袋', 'PE 袋', '黑色导电袋', '黑色防静电袋', '网格防静电袋']
-      },
-
-    ]
-  },
-  {
-    id: 'company_display',
-    name: '公司展示',
-    productIds: ['食品级原料', '整洁车间', '大型仓库', '机器设备']
-  }
-]
+// 兼容保留：若服务器不可用时的空结构（尽量不使用本地mock）
+const categoryStructure = []
 
 // 将分类结构转换为包含完整产品数据的格式
-function buildCategoriesWithProducts() {
-  return (categoryStructure || []).map(category => {
-    // 如果没有 children，但有顶层 productIds，则自动包成一个“全部”子分类
-    const normalizedChildren = (category.children && category.children.length > 0)
+function buildCategoriesWithProductsFromServer(rawCategories = [], allProducts = []) {
+  // 将产品表转为以业务ID(product_id或id)为键的字典
+  const productById = {}
+  ;(allProducts || []).forEach(p => {
+    const id = p.product_id ?? p.id
+    if (!id) return
+    productById[id] = {
+      ...p,
+      id: p.id ?? p.product_id,
+      image: Array.isArray(p.images) && p.images.length > 0 ? p.images[0] : ''
+    }
+  })
+
+  // 将分类拍平成主分类+子分类结构
+  // 服务器 categories 表结构：category_id, name, parent_id, product_ids(JSON)
+  const byId = {}
+  const roots = []
+  ;(rawCategories || []).forEach(c => {
+    const node = {
+      id: c.category_id,
+      name: c.name,
+      productIds: Array.isArray(c.product_ids) ? c.product_ids : [],
+      children: []
+    }
+    byId[node.id] = node
+  })
+  ;(rawCategories || []).forEach(c => {
+    const id = c.category_id
+    const parentId = c.parent_id
+    if (parentId && byId[parentId]) {
+      byId[parentId].children.push(byId[id])
+    } else {
+      roots.push(byId[id])
+    }
+  })
+
+  // 规范化：无 children 但有 productIds 的主类，自动生成“全部”子类
+  const withProducts = (roots || []).map(category => {
+    const hasChildren = Array.isArray(category.children) && category.children.length > 0
+    const normalizedChildren = hasChildren
       ? category.children
-      : (category.productIds ? [{
-          id: `${category.id}-all`,
-          name: '全部',
-          productIds: category.productIds
-        }] : []);
+      : (Array.isArray(category.productIds) && category.productIds.length > 0
+          ? [{ id: `${category.id}-all`, name: '全部', productIds: category.productIds }]
+          : [])
 
     return {
-      ...category,
-      children: (normalizedChildren || []).map(subcategory => ({
-        ...subcategory,
-        products: getProducts(subcategory.productIds || []) // 从产品库获取完整产品数据
+      id: category.id,
+      name: category.name,
+      children: normalizedChildren.map(sub => ({
+        id: sub.id,
+        name: sub.name,
+        products: (sub.productIds || []).map(pid => productById[pid]).filter(Boolean)
       }))
     }
   })
+
+  return withProducts
 }
 
 // 模拟异步获取分类数据
-export function fetchCategories() {
-  return new Promise((resolve) => {
-    // 立即返回数据，不添加人为延迟
-    resolve(buildCategoriesWithProducts())
-  })
+export async function fetchCategories() {
+  try {
+    const [rawCategories, allProducts] = await Promise.all([
+      fetchCategoriesApi(),
+      fetchProducts()
+    ])
+    return buildCategoriesWithProductsFromServer(rawCategories, allProducts)
+  } catch (err) {
+    console.error('[Category] 加载服务器分类失败，回退为空结构:', err)
+    // 回退：尽量返回空数组，避免前端异常
+    return buildCategoriesWithProductsFromServer(categoryStructure, [])
+  }
 }

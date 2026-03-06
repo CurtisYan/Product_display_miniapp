@@ -130,7 +130,8 @@
 import CustomTabBar from '../../components/CustomTabBar.vue'
 import ProductDetailDrawer from '../../components/ProductDetailDrawer.vue'
 import LazyImage from '../../components/LazyImage.vue'
-import { getShowcaseProducts } from '../../shared/products.js'
+// 改为从服务器拉取产品数据
+import { fetchProducts } from '../../utils/api.js'
 import { setupPageShare } from '../../utils/share.js'
 
 export default {
@@ -142,7 +143,7 @@ export default {
   },
   data() {
     return {
-      products: getShowcaseProducts(), // 从统一产品库获取展示页产品
+      products: [], // 改为运行时从服务器获取
       showProductDetail: false,
       selectedProduct: null,
       searchKeyword: '',
@@ -211,6 +212,8 @@ export default {
   },
   created() {
     this.loadFavorites()
+    // 首次进入拉取服务器产品数据
+    this.loadProducts()
   },
   onShow() {
     console.log('onShow 触发 - 已处理分享参数标记:', this.hasHandledShareParams)
@@ -274,6 +277,27 @@ export default {
     this.handleScroll(e.scrollTop)
   },
   methods: {
+    async loadProducts() {
+      try {
+        const list = await fetchProducts()
+        // 统一前端字段：id、image
+        const normalized = (Array.isArray(list) ? list : []).map(p => ({
+          ...p,
+          id: p.id ?? p.product_id, // 兼容后端product_id
+          image: Array.isArray(p.images) && p.images.length > 0 ? p.images[0] : ''
+        }))
+        // 随机打散，保持与原展示页体验一致
+        for (let i = normalized.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1))
+          ;[normalized[i], normalized[j]] = [normalized[j], normalized[i]]
+        }
+        this.products = normalized
+        console.log('[Showcase] 产品加载完成，数量:', this.products.length)
+      } catch (err) {
+        console.error('[Showcase] 产品加载失败:', err)
+        uni.showToast({ title: '网络异常，产品加载失败', icon: 'none' })
+      }
+    },
     openDetail(p) {
       // 防止双击：如果已经在打开中或已经打开，直接返回
       if (this.isOpeningDetail || this.showProductDetail) return

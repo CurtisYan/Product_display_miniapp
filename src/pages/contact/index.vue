@@ -9,7 +9,7 @@
         <view class="company-header">
           <view class="company-avatar">
             <LazyImage 
-              src="/static/images/company/szmeisu.jpeg" 
+              :src="companyLogoUrl" 
               mode="aspectFill"
               width="120rpx"
               height="120rpx"
@@ -113,7 +113,7 @@
         <view class="qr-container">
           <view class="qr-code">
             <LazyImage 
-              src="/static/images/company/WeChat-Business-Card.jpeg" 
+              :src="wechatQrUrl" 
               mode="aspectFit"
               width="456rpx"
               height="456rpx"
@@ -159,8 +159,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { contactInfo } from '../../config.js'
+import { ref, onMounted, computed } from 'vue'
+// 改为从服务器获取公司信息，移除本地 config.js 依赖
+import { fetchCompany } from '../../utils/api.js'
 import CustomTabBar from '../../components/CustomTabBar.vue'
 import LazyImage from '../../components/LazyImage.vue'
 
@@ -168,6 +169,21 @@ import LazyImage from '../../components/LazyImage.vue'
 uni.$on('page-show-contact', () => {
   uni.$emit('updateTabBar')
 })
+
+// 公司信息（从服务端加载）
+const contactInfo = ref({
+  company: '公司名称',
+  phone: '',
+  email: '',
+  address: '',
+  companyIntroduction: [],
+  company_logo: '',
+  wechat_qr: ''
+})
+
+// 计算图片URL（若服务端未配置则回退到本地占位）
+const companyLogoUrl = computed(() => contactInfo.value.company_logo || '/static/images/company/szmeisu.jpeg')
+const wechatQrUrl = computed(() => contactInfo.value.wechat_qr || '/static/images/company/WeChat-Business-Card.jpeg')
 
 // 控制二维码弹窗显示
 const showQRModal = ref(false)
@@ -189,14 +205,22 @@ const hideQRCode = () => {
 const showAbout = () => {
   showAboutModal.value = true
   // 在弹窗显示时禁用页面滚动
-  document.body.style.overflow = 'hidden'
+  // #ifdef H5
+  if (typeof document !== 'undefined' && document.body) {
+    document.body.style.overflow = 'hidden'
+  }
+  // #endif
 }
 
 // 隐藏公司介绍
 const hideAbout = () => {
   showAboutModal.value = false
   // 在弹窗关闭时恢复页面滚动
-  document.body.style.overflow = 'auto'
+  // #ifdef H5
+  if (typeof document !== 'undefined' && document.body) {
+    document.body.style.overflow = 'auto'
+  }
+  // #endif
 }
 
 // 长按图片事件（备用，如果 show-menu-by-longpress 不生效）
@@ -241,6 +265,27 @@ const onQRImageError = (e) => {
     duration: 2000
   })
 }
+
+// 加载公司信息
+onMounted(async () => {
+  try {
+    const data = await fetchCompany()
+    const intro = (data?.introduction || '').split(/\n+/).map(s => s.trim()).filter(Boolean)
+    contactInfo.value = {
+      company: data?.name || '公司名称',
+      phone: data?.phone || '',
+      email: data?.email || '',
+      address: data?.address || '',
+      companyIntroduction: intro,
+      company_logo: data?.company_logo || '',
+      wechat_qr: data?.wechat_qr || ''
+    }
+    console.log('[Contact] 公司信息已加载')
+  } catch (err) {
+    console.error('[Contact] 加载公司信息失败:', err)
+    uni.showToast({ title: '公司信息加载失败', icon: 'none' })
+  }
+})
 </script>
 
 <script>
