@@ -2,7 +2,7 @@
   "miniprogramRoot": "dist/",
   "projectname": "meisu-product-showcase",
   "description": "深圳市美塑包装材料有限公司产品展示小程序",
-  "appid": "wxb8ef2cb74641a131",
+  "appid": "touristappid",
   "libVersion": "2.29.2",
   "setting": {
     "urlCheck": false,
