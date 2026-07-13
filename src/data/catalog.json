@@ -1,201 +1,179 @@
 {
   "settings": {
-    "heroId": "B3",
+    "heroId": "B6",
     "headlinePrimary": "把保护，",
     "headlineSecondary": "做成一种形状。",
     "intro": "专注静电防护、塑料包装与缓冲材料。这里不是商城，是一册可以触摸的产品样本。",
     "marqueeText": "防静电 · 导电 · 密封 · 定制",
     "contactTitle": "我们生产什么？",
-    "contactIntro": "静电袋、防静电塑料薄膜、PE袋、防静电PE袋、PE膜、导电袋、防静电气泡袋、自封袋、珍珠棉、海绵、PE骨袋、电子袋、黑色袋、主机袋、网格袋、LED袋、红色袋。",
+    "contactIntro": "PE袋、防静电袋、网格防静电袋、气泡袋、珍珠棉、海绵，并展示生产设备、工厂环境、仓储、原材料与防静电测试。",
     "contactSlogan": "质量好，价格实惠。",
     "website": "https://www.sfy.cn",
     "websiteLabel": "www.sfy.cn"
   },
   "categories": [
     {
-      "id": "plastic",
-      "name": "塑料包装"
-    },
-    {
-      "id": "foam",
-      "name": "泡棉材料"
+      "id": "product",
+      "name": "产品"
     },
     {
       "id": "factory",
-      "name": "工厂机器"
+      "name": "工厂"
+    },
+    {
+      "id": "quality",
+      "name": "质量"
     }
   ],
   "products": [
     {
-      "id": "B3",
-      "name": "静电袋",
-      "subtitle": "电子产品的透明防线",
-      "description": "用于电子产品及敏感器件包装，降低静电积累带来的风险。",
-      "category": "塑料包装",
+      "id": "B6",
+      "name": "防静电袋",
+      "subtitle": "导电、屏蔽与静电防护",
+      "description": "统一展示导电袋、屏蔽袋、粉红防静电袋及黑色导电袋等系列，为静电敏感器件提供可靠包装保护。",
+      "category": "产品",
       "images": [
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E9%9D%99%E7%94%B5%E8%A2%8B.jpg"
+        "products/产品/防静电袋/防静电袋1.png",
+        "products/产品/防静电袋/防静电袋2.jpg",
+        "products/产品/防静电袋/防静电袋3.jpg",
+        "products/产品/防静电袋/防静电袋4.jpg",
+        "products/产品/防静电袋/防静电袋5.jpg",
+        "products/产品/防静电袋/防静电袋6.jpg"
       ]
     },
     {
       "id": "B8",
-      "name": "网格袋",
+      "name": "网格防静电袋",
       "subtitle": "看得见的静电防护",
-      "description": "网格结构兼顾可视性与静电防护，是电子零部件包装的代表产品。",
-      "category": "塑料包装",
+      "description": "网格结构兼顾可视性与静电防护，外观、材料和用途具有鲜明特点，作为独立产品系列展示。",
+      "category": "产品",
       "images": [
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E7%BD%91%E6%A0%BC%E9%98%B2%E9%9D%99%E7%94%B5%E8%A2%8B.jpg"
-      ]
-    },
-    {
-      "id": "B6",
-      "name": "黑色导电袋",
-      "subtitle": "稳定屏蔽，强力保护",
-      "description": "黑色导电材料形成稳定屏蔽层，为静电敏感器件提供可靠保护。",
-      "category": "塑料包装",
-      "images": [
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E9%BB%91%E8%89%B2%E5%AF%BC%E7%94%B5%E8%A2%8B.png"
-      ]
-    },
-    {
-      "id": "B7",
-      "name": "黑色防静电袋",
-      "subtitle": "遮光与静电防护",
-      "description": "黑色防静电包装材料，适合需要遮光与静电保护的产品。",
-      "category": "塑料包装",
-      "images": [
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E9%BB%91%E8%89%B2%E9%98%B2%E9%9D%99%E7%94%B5%E8%A2%8B.jpg"
-      ]
-    },
-    {
-      "id": "B2",
-      "name": "自封口 PE 袋",
-      "subtitle": "柔韧与防护兼得",
-      "description": "便捷密封，可按尺寸、厚度及印刷要求定制。",
-      "category": "塑料包装",
-      "images": [
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E8%87%AA%E5%B0%81%E5%8F%A3PE%E8%A2%8B.jpg"
+        "products/产品/网格防静电袋/网格防静电袋1.jpg",
+        "products/产品/网格防静电袋/网格防静电袋2.jpg",
+        "products/产品/网格防静电袋/网格防静电袋3.jpg"
       ]
     },
     {
       "id": "B5",
-      "name": "PE 袋",
+      "name": "PE袋",
       "subtitle": "轻薄、耐用、按需定制",
-      "description": "通用型工业包装，可按需求定制。",
-      "category": "塑料包装",
+      "description": "统一展示普通PE袋、出口PE袋与自封PE袋，可按尺寸、厚度、颜色、印刷及封口方式定制。",
+      "category": "产品",
       "images": [
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/PE%E8%A2%8B.jpg"
+        "products/产品/PE袋/PE袋1.jpg",
+        "products/产品/PE袋/PE袋2.jpg",
+        "products/产品/PE袋/PE袋3.jpg",
+        "products/产品/PE袋/PE袋4.png",
+        "products/产品/PE袋/PE袋5.jpg",
+        "products/产品/PE袋/PE袋6.jpg"
       ]
     },
     {
-      "id": "B4",
-      "name": "出口 PE 袋",
-      "subtitle": "出口级包装",
-      "description": "面向出口产品的 PE 包装解决方案。",
-      "category": "塑料包装",
+      "id": "B9",
+      "name": "气泡袋",
+      "subtitle": "气泡缓冲，轻量保护",
+      "description": "利用气泡层吸收运输和搬运中的冲击，可用于电子产品、零部件及易损物品的缓冲包装。",
+      "category": "产品",
       "images": [
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E5%87%BA%E5%8F%A3PE%E8%A2%8B.png"
-      ]
-    },
-    {
-      "id": "B1",
-      "name": "出口型自封袋",
-      "subtitle": "便捷密封包装",
-      "description": "符合出口包装要求的自封袋产品。",
-      "category": "塑料包装",
-      "images": [
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E5%87%BA%E5%8F%A3%E5%9E%8B%E8%87%AA%E5%B0%81%E8%A2%8B.jpg"
+        "products/产品/气泡袋/气泡袋1.jpg",
+        "products/产品/气泡袋/气泡袋2.jpg"
       ]
     },
     {
       "id": "A2",
       "name": "海绵",
       "subtitle": "柔软，也可以非常精确",
-      "description": "多用途缓冲材料，可按产品结构裁切。",
-      "category": "泡棉材料",
+      "description": "多用途缓冲材料，可按产品结构、密度和尺寸要求裁切成型。",
+      "category": "产品",
       "images": [
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E6%B5%B7%E7%BB%B51.jpg",
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E6%B5%B7%E7%BB%B52.jpg",
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E6%B5%B7%E7%BB%B53.jpg"
+        "products/产品/海绵/海绵1.jpg",
+        "products/产品/海绵/海绵2.jpg",
+        "products/产品/海绵/海绵3.jpg"
       ]
     },
     {
       "id": "A1",
       "name": "珍珠棉",
       "subtitle": "轻盈缓冲材料",
-      "description": "受生产限制的缓冲材料，保留在分类末位展示。",
-      "category": "泡棉材料",
+      "description": "用于缓冲、隔离和保护的轻质材料，受生产限制，保留在产品分类末位展示。",
+      "category": "产品",
       "limited": true,
       "images": [
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E7%8F%8D%E7%8F%A0%E6%A3%891.png",
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E7%8F%8D%E7%8F%A0%E6%A3%892.png",
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E7%8F%8D%E7%8F%A0%E6%A3%893.png",
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E7%8F%8D%E7%8F%A0%E6%A3%894.jpg",
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E7%8F%8D%E7%8F%A0%E6%A3%895.jpg",
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E7%8F%8D%E7%8F%A0%E6%A3%896.jpg",
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E7%8F%8D%E7%8F%A0%E6%A3%897.jpg"
-      ]
-    },
-    {
-      "id": "C1",
-      "name": "食品级原料",
-      "subtitle": "从原料开始控制品质",
-      "description": "用于包装材料生产的食品级原料展示，从源头把控材料稳定性与洁净度。",
-      "category": "工厂机器",
-      "images": [
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E9%A3%9F%E5%93%81%E7%BA%A7%E5%8E%9F%E6%96%99.jpg"
-      ]
-    },
-    {
-      "id": "C2",
-      "name": "整洁车间",
-      "subtitle": "规范、洁净的生产现场",
-      "description": "生产车间保持整洁有序，为稳定生产和产品品质提供基础保障。",
-      "category": "工厂机器",
-      "images": [
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E6%95%B4%E6%B4%81%E8%BD%A6%E9%97%B4.jpg"
-      ]
-    },
-    {
-      "id": "C3",
-      "name": "大型仓库",
-      "subtitle": "充足库存与规范仓储",
-      "description": "仓库用于原料及成品的分类储存，支持日常供货与定制订单周转。",
-      "category": "工厂机器",
-      "images": [
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E5%A4%A7%E5%9E%8B%E4%BB%93%E5%BA%93.png"
+        "products/产品/珍珠棉/珍珠棉1.png",
+        "products/产品/珍珠棉/珍珠棉2.png",
+        "products/产品/珍珠棉/珍珠棉3.png",
+        "products/产品/珍珠棉/珍珠棉4.jpg",
+        "products/产品/珍珠棉/珍珠棉5.jpg",
+        "products/产品/珍珠棉/珍珠棉6.jpg",
+        "products/产品/珍珠棉/珍珠棉7.jpg"
       ]
     },
     {
       "id": "C4",
-      "name": "机器设备",
-      "subtitle": "三组生产设备实景",
-      "description": "美塑包装生产设备实景展示，左右滑动可连续查看三张设备图片。",
-      "category": "工厂机器",
+      "name": "生产设备",
+      "subtitle": "稳定生产的设备基础",
+      "description": "集中展示美塑包装的生产设备，左右滑动可连续查看四张设备实景。",
+      "category": "工厂",
       "images": [
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E6%9C%BA%E5%99%A8%E8%AE%BE%E5%A4%871.jpg",
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E6%9C%BA%E5%99%A8%E8%AE%BE%E5%A4%872.jpg",
-        "https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/%E6%9C%BA%E5%99%A8%E8%AE%BE%E5%A4%873.jpg"
+        "products/工厂/生产设备/生产设备1.jpg",
+        "products/工厂/生产设备/生产设备2.jpg",
+        "products/工厂/生产设备/生产设备3.jpg",
+        "products/工厂/生产设备/生产设备4.jpg"
+      ]
+    },
+    {
+      "id": "C2",
+      "name": "工厂环境",
+      "subtitle": "规范、洁净的生产现场",
+      "description": "生产现场保持整洁有序，为稳定生产和产品品质提供基础保障。",
+      "category": "工厂",
+      "images": [
+        "products/工厂/工厂环境/工厂环境1.jpg"
+      ]
+    },
+    {
+      "id": "C3",
+      "name": "仓库",
+      "subtitle": "充足库存与规范仓储",
+      "description": "原料及成品分类储存，支持日常供货与定制订单周转。",
+      "category": "工厂",
+      "images": [
+        "products/工厂/仓库/仓库1.png"
+      ]
+    },
+    {
+      "id": "C1",
+      "name": "原材料",
+      "subtitle": "从原料开始控制品质",
+      "description": "食品级PE原料展示，从源头把控包装材料的稳定性与洁净度。",
+      "category": "工厂",
+      "images": [
+        "products/工厂/原材料/PE原料1.jpg"
+      ]
+    },
+    {
+      "id": "Q1",
+      "name": "防静电测试",
+      "subtitle": "用数据验证静电防护",
+      "description": "通过表面电阻测试记录不同包装材料的导电与静电耗散表现，为材料选择和品质控制提供依据。",
+      "category": "质量",
+      "images": [
+        "products/质量/防静电测试/防静电测试1.jpg",
+        "products/质量/防静电测试/防静电测试2.jpg",
+        "products/质量/防静电测试/防静电测试3.jpg",
+        "products/质量/防静电测试/防静电测试4.jpg",
+        "products/质量/防静电测试/防静电测试5.jpg",
+        "products/质量/防静电测试/防静电测试6.jpg"
       ]
     }
   ],
   "companyShowcase": [],
   "companyProducts": [
-    "静电袋",
-    "防静电塑料薄膜",
     "PE袋",
-    "防静电PE袋",
-    "PE膜",
-    "导电袋",
-    "防静电气泡袋",
-    "自封袋",
+    "防静电袋",
+    "网格防静电袋",
+    "气泡袋",
     "珍珠棉",
-    "海绵",
-    "PE骨袋",
-    "电子袋",
-    "黑色袋",
-    "主机袋",
-    "网格袋",
-    "LED袋",
-    "红色袋"
+    "海绵"
   ]
 }

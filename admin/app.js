@@ -2,7 +2,7 @@ let catalog, editingItem=null, editingCategory=-1, draggedCategory=-1, draggedIt
 const $=selector=>document.querySelector(selector)
 const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]))
 const OSS='https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/'
-const imageUrl=value=>/^https?:\/\//.test(value)?value:OSS+encodeURIComponent(value)
+const imageUrl=value=>/^https?:\/\//.test(value)?value:OSS+value.split('/').map(encodeURIComponent).join('/')
 const thumbUrl=value=>{const url=imageUrl(value);if(!url.includes('curtisyan.oss-cn-shenzhen.aliyuncs.com')||url.includes('x-oss-process='))return url;return url+(url.includes('?')?'&':'?')+'x-oss-process=image/resize,w_320,limit_1/format,webp/quality,q_76'}
 const settingKeys=['headlinePrimary','headlineSecondary','intro','marqueeText','contactTitle','contactIntro','contactSlogan','website','websiteLabel']
 

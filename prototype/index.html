@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#eee9de">
+  <title>美塑包装 · 高级交互方向预览</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./interactions.css">
+  <link rel="stylesheet" href="./container-options.css">
+</head>
+<body>
+  <main class="device" id="device">
+    <header class="site-head">
+      <button class="brand" data-page="home" aria-label="返回首页">
+        <img src="../src/assets/SFYlogo-black-circle.svg" alt="SFY">
+        <span>美塑包装</span>
+      </button>
+      <span class="edition">PRODUCT INDEX · <b id="year"></b></span>
+    </header>
+
+    <section class="page page--home is-active" data-name="home">
+      <div class="home-intro">
+        <span class="kicker">MEISU MATERIAL ARCHIVE / 01</span>
+        <h1>把保护，<br><i>做成一种形状。</i></h1>
+        <p>专注静电防护、塑料包装与缓冲材料。直接看产品，也可以触摸它。</p>
+      </div>
+
+      <section class="hero" id="hero" aria-label="主推产品交互展示">
+        <div class="hero-noise"></div>
+        <div class="hero-orbit hero-orbit--a"></div>
+        <div class="hero-orbit hero-orbit--b"></div>
+        <div class="hero-depth hero-depth--back"></div>
+        <div class="hero-depth hero-depth--mid"></div>
+        <div class="hero-product" id="heroProduct">
+          <div class="hero-glass"></div>
+          <img id="heroImage" draggable="false" alt="静电袋">
+          <div class="hero-refraction"></div>
+        </div>
+        <div class="hero-meta">
+          <span>001 / PLASTIC</span>
+          <h2 id="heroName">静电袋</h2>
+          <p id="heroSubtitle">电子产品的透明防线</p>
+        </div>
+        <div class="hero-hint"><span></span>拖动观察材质</div>
+        <button class="hero-open" id="heroOpen">查看大图 <b>↗</b></button>
+      </section>
+
+      <div class="flowline"><span>防静电 · 导电 · 密封 · 定制 · 防静电 · 导电 · 密封 · 定制 · </span></div>
+
+      <div class="section-title">
+        <div><span>PRODUCT SAMPLES</span><h2>所有产品</h2></div>
+        <button data-page="category">按分类查看 ↗</button>
+      </div>
+      <div class="product-list" id="productList"></div>
+    </section>
+
+    <section class="page page--category" data-name="category">
+      <div class="category-head">
+        <span class="kicker">MATERIAL INDEX / 02</span>
+        <h1>快速找到<br><i>需要的材料。</i></h1>
+        <p>上下滑动选择分类，点击后展开该分类的全部展示项。</p>
+      </div>
+      <div class="category-index" id="categoryIndex"></div>
+      <p class="category-footnote">当前分类会向前抬升，其他内容保持可见。</p>
+    </section>
+
+    <section class="page page--contact" data-name="contact">
+      <div class="contact-head">
+        <span class="kicker">CONTACT / 03</span>
+        <h1>产品看完，<br><i>我们聊聊。</i></h1>
+      </div>
+
+      <section class="showcase-lab">
+        <div class="showcase-lab-head">
+          <div><span>CONTAINER STUDIES</span><b>精美产品展示 · 容器方案</b></div>
+          <small>点击 A / B / C / D 比较</small>
+        </div>
+        <div class="showcase-tabs" role="tablist">
+          <button class="is-active" data-showcase-option="a"><b>A</b><span>档案网格</span></button>
+          <button data-showcase-option="b"><b>B</b><span>材料坐标</span></button>
+          <button data-showcase-option="c"><b>C</b><span>透明膜片</span></button>
+          <button data-showcase-option="d"><b>D</b><span>几何色块</span></button>
+        </div>
+
+        <div class="showcase-viewport">
+          <article class="showcase-option showcase-option--archive scene-design--grid is-active" data-showcase-panel="a">
+            <div class="archive-index">MEISU<br>PACKAGING</div>
+            <div class="option-frame">
+              <div class="option-title"><span>PRODUCT COMPOSITION / 01</span><b>精美产品展示</b><small>纸张、油墨与工业材料的编辑部档案盒</small></div>
+              <div class="product-scene" data-specimen-scene></div>
+            </div>
+            <div class="option-stamp">GRID<br>ARCHIVE</div>
+          </article>
+
+          <article class="showcase-option showcase-option--archive scene-design--axis" data-showcase-panel="b">
+            <div class="archive-index">MEISU<br>PACKAGING</div>
+            <div class="option-frame">
+              <div class="option-title"><span>PRODUCT COMPOSITION / 02</span><b>精美产品展示</b><small>以坐标、轨道与测量线组织工业材料</small></div>
+              <div class="product-scene" data-specimen-scene></div>
+            </div>
+            <div class="option-stamp">MATERIAL<br>AXIS</div>
+          </article>
+
+          <article class="showcase-option showcase-option--archive scene-design--film" data-showcase-panel="c">
+            <div class="archive-index">MEISU<br>PACKAGING</div>
+            <div class="option-frame">
+              <div class="option-title"><span>PRODUCT COMPOSITION / 03</span><b>精美产品展示</b><small>用半透明膜片、折射和叠色呼应包装材料</small></div>
+              <div class="product-scene" data-specimen-scene></div>
+            </div>
+            <div class="option-stamp">SOFT<br>FILM</div>
+          </article>
+
+          <article class="showcase-option showcase-option--archive scene-design--blocks" data-showcase-panel="d">
+            <div class="archive-index">MEISU<br>PACKAGING</div>
+            <div class="option-frame">
+              <div class="option-title"><span>PRODUCT COMPOSITION / 04</span><b>精美产品展示</b><small>沿用首页色彩系统的编辑式几何构成</small></div>
+              <div class="product-scene" data-specimen-scene></div>
+            </div>
+            <div class="option-stamp">COLOR<br>SYSTEM</div>
+          </article>
+        </div>
+      </section>
+
+      <a class="phone-card" href="tel:18924644110">
+        <span>PHONE / 电话</span><b>189 2464 4110</b><small>点击拨号 · 长按复制手机号</small><i>↗</i>
+      </a>
+      <button class="wechat-card" id="wechatOpen">
+        <span>WECHAT / 微信</span><b>查看微信二维码</b><small>在小程序内可长按识别</small><i>↗</i>
+      </button>
+      <div class="company-info">
+        <img src="https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/SFYlogo.jpeg" alt="SFY Logo">
+        <div><b>深圳市美塑包装材料有限公司</b><span>广东省惠州市沥林镇</span></div>
+      </div>
+      <div class="contact-note">
+        <span>WHAT WE MAKE</span>
+        <p>静电袋、防静电塑料薄膜、PE袋、导电袋、防静电气泡袋、自封袋、珍珠棉、海绵、网格袋等包装材料。</p>
+        <a href="https://www.sfy.cn" target="_blank" rel="noreferrer">www.sfy.cn · 点击跳转 ↗</a>
+      </div>
+    </section>
+
+    <nav class="dock" aria-label="主导航">
+      <span class="dock-line"></span>
+      <button class="is-active" data-page="home"><small>01</small><b>展厅</b></button>
+      <button data-page="category"><small>02</small><b>分类</b></button>
+      <button data-page="contact"><small>03</small><b>联系</b></button>
+    </nav>
+
+    <div class="modal" id="detailModal" aria-hidden="true">
+      <button class="modal-mask" aria-label="关闭详情"></button>
+      <article class="sheet" id="detailSheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-top"><span id="detailNumber">001 / PRODUCT</span><button class="share">分享 ↗</button></div>
+        <h2 id="detailName"></h2>
+        <p id="detailSubtitle" class="sheet-subtitle"></p>
+        <div class="detail-media">
+          <div class="detail-track" id="detailTrack"></div>
+          <div class="detail-dots" id="detailDots"></div>
+        </div>
+        <p id="detailDescription" class="sheet-copy"></p>
+        <div class="sheet-actions"><button data-page="contact">咨询这种材料 ↗</button><button class="sheet-dismiss">继续浏览</button></div>
+      </article>
+    </div>
+
+    <div class="qr-modal" id="qrModal" aria-hidden="true">
+      <button class="qr-mask" aria-label="关闭二维码"></button>
+      <div class="qr-panel"><span>WECHAT QR</span><b>微信联系</b><img alt="微信二维码"><small>小程序中长按图片可识别二维码</small></div>
+    </div>
+  </main>
+  <script src="./app.js"></script>
+</body>
+</html>

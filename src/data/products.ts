@@ -5,7 +5,7 @@ export type CatalogSettings=typeof catalog.settings
 export type CatalogCategory=typeof catalog.categories[number]
 
 const OSS='https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/'
-const imageUrl=(value:string)=>/^https?:\/\//.test(value)?value:OSS+encodeURIComponent(value)
+const imageUrl=(value:string)=>/^https?:\/\//.test(value)?value:OSS+value.split('/').map(encodeURIComponent).join('/')
 const normalize=(item:Omit<Product,'priority'>,index:number):Product=>({...item,priority:index+1,images:item.images.map(imageUrl)})
 
 export const catalogSettings:CatalogSettings=catalog.settings

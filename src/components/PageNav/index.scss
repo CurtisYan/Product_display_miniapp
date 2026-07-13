@@ -1,1 +1,18 @@
-.page-nav{position:fixed;z-index:60;left:22rpx;right:22rpx;bottom:38rpx;border:3rpx solid var(--ink);background:rgba(244,240,231,.96);box-shadow:8rpx 8rpx 0 rgba(32,33,29,.18)}.page-nav-progress{height:10rpx;background:var(--coral);width:33.333%;transition:transform .45s cubic-bezier(.22,1,.36,1),background .3s ease}.page-nav-progress--category{transform:translateX(100%);background:#ffd02f}.page-nav-progress--contact{transform:translateX(200%);background:#24cfa0}.page-nav-items{display:flex}.page-nav-item{flex:1;height:88rpx;display:flex;align-items:center;justify-content:center;border-right:2rpx solid var(--ink)}.page-nav-item:last-child{border-right:0}.page-nav-item text:first-child{font-size:17rpx;margin-right:10rpx;opacity:.55}.page-nav-item text:last-child{font-size:25rpx;font-weight:800}.page-nav-item--active{background:var(--ink);color:var(--paper)}.page-nav-item--active text:first-child{opacity:1}.page-nav--gallery .page-nav-item--active text:first-child{color:var(--coral)}.page-nav--category .page-nav-item--active text:first-child{color:#ffd02f}.page-nav--contact .page-nav-item--active text:first-child{color:#24cfa0}
+.page-nav{position:fixed;z-index:60;left:22rpx;right:22rpx;bottom:38rpx;height:108rpx;border:3rpx solid var(--ink);background:rgba(244,240,231,.96);box-shadow:8rpx 8rpx 0 rgba(32,33,29,.18);overflow:hidden}
+.page-nav-spectrum{position:absolute;z-index:4;left:0;right:0;top:0;height:9rpx;display:flex}
+.page-nav-spectrum view{width:33.333%;height:100%}
+.page-nav-spectrum view:first-child{background:var(--coral)}
+.page-nav-spectrum view:nth-child(2){background:#f0bd2e}
+.page-nav-spectrum view:last-child{background:#37c4aa}
+.page-nav-cursor{position:absolute;z-index:1;left:0;top:9rpx;bottom:0;width:33.333%;background:var(--ink);transition:transform .42s cubic-bezier(.16,1,.3,1)}
+.page-nav-items{position:absolute;z-index:2;left:0;right:0;top:9rpx;bottom:0;display:flex}
+.page-nav-item{width:33.333%;display:flex;align-items:center;justify-content:center;border-right:2rpx solid var(--ink);transition:color .25s ease}
+.page-nav-item:last-child{border-right:0}
+.page-nav-item text:first-child{font-size:17rpx;margin-right:10rpx;opacity:.55;transition:opacity .25s ease,color .25s ease}
+.page-nav-item text:last-child{font-size:25rpx;font-weight:800}
+.page-nav-item--active{color:var(--paper)}
+.page-nav-item--active text:first-child{opacity:1}
+.page-nav--gallery .page-nav-item--active text:first-child{color:var(--coral)}
+.page-nav--category .page-nav-item--active text:first-child{color:#f0bd2e}
+.page-nav--contact .page-nav-item--active text:first-child{color:#37c4aa}
+.page-nav--transitioning .page-nav-item{pointer-events:none}
