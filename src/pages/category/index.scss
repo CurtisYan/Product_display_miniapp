@@ -1,0 +1,44 @@
+.category-tabs {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  margin: 38rpx -32rpx 28rpx;
+  padding: 0 32rpx 8rpx;
+}
+
+.category-tabs .pill {
+  flex-shrink: 0;
+  margin-right: 12rpx;
+}
+
+.material-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.material-card {
+  height: 220rpx;
+  border: 3rpx solid var(--ink);
+  margin-bottom: 16rpx;
+  display: flex;
+  align-items: stretch;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  transition: transform .2s ease;
+}
+
+.material-card:active { transform: scale(.98); }
+.material-card image { width: 230rpx; height: 100%; flex-shrink: 0; background: #fff; }
+.material-copy { flex: 1; min-width: 0; padding: 20rpx 54rpx 18rpx 22rpx; display: flex; flex-direction: column; justify-content: center; }
+.material-index { font-size: 18rpx; opacity: .65; }
+.material-name { font-size: 38rpx; line-height: 1.1; font-weight: 900; margin: 6rpx 0; }
+.material-subtitle { font-size: 20rpx; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.material-arrow { position: absolute; right: 18rpx; bottom: 16rpx; width: 44rpx; height: 44rpx; border: 2rpx solid; border-radius: 50%; font-size: 25rpx; line-height: 42rpx; text-align: center; }
+.limited-badge { align-self: flex-start; margin-top: 10rpx; border: 2rpx solid; padding: 5rpx 9rpx; font-size: 17rpx; }
+.card-0 { background: var(--yellow); }
+.card-1 { background: #f2a8c1; }
+.card-2 { background: #a7dbea; }
+.card-3 { background: #d7c5ff; }
+.card-4 { background: var(--lime); }
+.gesture-tip { display: block; margin: 30rpx 0 20rpx; font-size: 20rpx; opacity: .65; }

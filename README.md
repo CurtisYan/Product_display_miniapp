@@ -1,74 +1,69 @@
-# 产品展示小程序
+# 美塑产品展示小程序
 
-一个基于 uni-app 和 Vue 的现代化产品展示小程序。
+深圳市美塑包装材料有限公司的产品展示小程序。项目只负责浏览、分类、分享和联系，不包含价格、购物车或下单流程。
 
-## 📱 界面预览
+## 技术栈
 
-<div align="center">
-  <img src="display_img/1.png" width="24%" alt="首页展示" />
-  <img src="display_img/2.png" width="24%" alt="产品分类" />
-  <img src="display_img/3.jpeg" width="24%" alt="产品详情" />
-  <img src="display_img/4.jpeg" width="24%" alt="联系方式" />
-</div>
+- Taro 4 + React + TypeScript
+- 微信小程序 Skyline 渲染器
+- Glass-easel 组件框架
+- SCSS
+- 阿里云 OSS 图片资源
 
-## 功能
+## 页面
 
-- 产品分类展示
-- 关键词搜索
-- 商品收藏
-- 联系方式页面
+- `pages/gallery/index`：产品展厅、搜索、视觉化产品卡片、产品详情
+- `pages/category/index`：分类浏览，防静电袋、网格袋、黑色袋优先，珍珠棉末位
+- `pages/contact/index`：公司资料、电话、微信二维码、产品范围和官网
 
-## 使用方法
-
-1.  **安装依赖**
-    ```bash
-    npm install
-    ```
-
-3.  **配置联系信息和图片资源**
-    - 将 `src/config.example.js` 复制一份并重命名为 `src/config.js`，然后填入真实的联系方式。
-    ```bash
-    cp src/config.example.js src/config.js
-    ```
-    
-    - 将 `src/static/images/products/imageUrls.example.js` 复制一份并重命名为 `imageUrls.js`，然后填入实际的图片 URL。
-    ```bash
-    cp src/static/images/products/imageUrls.example.js src/static/images/products/imageUrls.js
-    ```
-    
-    > **注意**：`imageUrls.js` 文件包含了所有产品图片的 URL 映射，每个变量名后都有中文注释说明对应的图片名称，方便识别和管理。此文件已被添加到 `.gitignore`，不会被提交到 Git 仓库中。
-
-4.  **运行到微信开发者工具**
-    ```bash
-    npm run dev:mp-weixin
-    ```
-    然后在微信开发者工具中导入 `dist/dev/mp-weixin` 目录。
-
-5.  **打包发布**
-    ```bash
-    npm run build:mp-weixin
-    ```
-
-## 📦 开发与发布流程
-
-本项目包含两种主要工作模式，通过不同的命令启动：
-
-### 开发模式
+## 开发
 
 ```bash
-npm run dev:mp-weixin
+npm install
+npm run dev:weapp
 ```
 
--   **用途**：日常开发和调试。
--   **特点**：此模式会启动实时编译（热更新），代码修改后可立即在微信开发者工具中看到效果。
--   **目录**：开发者工具需导入 `dist/dev/mp-weixin` 目录。
+在微信开发者工具中导入项目根目录，开发工具读取 `project.config.json` 并使用 `dist` 作为小程序目录。
 
-### 发布模式
+## 构建
 
 ```bash
-npm run build:mp-weixin
+npm run build:weapp
 ```
 
--   **用途**：完成开发后，准备提交审核或正式发布。
--   **特点**：此模式会对代码进行压缩和性能优化，生成体积最小的线上版本。
--   **上传**：执行完毕后，在微信开发者工具中点击“上传”，上传的代码包即为此模式生成的，位于 `dist/build/mp-weixin` 目录。
+## 发布前配置
+
+1. 将 `project.config.json` 中的 `appid` 替换为真实小程序 AppID。
+2. 在微信公众平台配置 `curtisyan.oss-cn-shenzhen.aliyuncs.com` 为 downloadFile 合法域名。
+3. 在真机上验证 Skyline、分享、拨号和二维码长按识别。
+
+## 图片
+
+产品图片继续使用：
+
+`https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/`
+
+本地 OSS 源资产不会编译进小程序代码包，按用途存放：
+
+- `assets/oss/products`：24 张产品和公司展示图
+- `assets/oss/company`：公司 Logo、微信二维码
+- `assets/oss/UPLOAD_MANIFEST.md`：上传清单与命名规范
+
+产品图采用可读文件名，单图直接使用产品名，多图使用连续编号，例如：
+
+- `静电袋.jpg`
+- `海绵1.jpg`、`海绵2.jpg`、`海绵3.jpg`
+- `珍珠棉1.png` 至 `珍珠棉7.jpg`
+
+公司 Logo 和微信二维码不参与产品图批量重命名。
+# 商品管理
+
+商品、图片、排序、首页主推和首页文案统一保存在 `src/data/catalog.json`。
+
+运行：
+
+```bash
+npm run admin
+```
+
+然后访问 `http://127.0.0.1:4177`。管理页支持拖动排序、自动序号、新增/删除商品、编辑图片地址和设置首页主推。点击“保存配置”后会自动更新 JSON 并构建小程序。

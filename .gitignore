@@ -12,9 +12,13 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+dist
+.taro
+project.private.config.json
 .DS_Store
 dist
 *.local
+Product_display_miniapp-main.zip
 
 # Editor directories and files
 .idea

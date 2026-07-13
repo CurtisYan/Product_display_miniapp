@@ -1,0 +1,15 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>美塑商品管理</title><link rel="stylesheet" href="style.css"></head><body>
+<header><div><img class="mark" src="sfy-logo.svg" alt="SFY"><b>美塑包装控制台</b></div><button id="save">保存配置</button></header>
+<main>
+  <section class="settings"><p class="kicker">HOMEPAGE / 首页配置</p><h1>控制展示，而不是改代码。</h1><div class="settings-grid">
+    <label>主标题<input id="headlinePrimary"></label><label>衬线标题<input id="headlineSecondary"></label><label class="wide">首页介绍<textarea id="intro"></textarea></label><label class="wide">首页滚动栏文案<input id="marqueeText" placeholder="例如：防静电 · 导电 · 密封 · 定制"></label>
+  </div></section>
+  <section class="settings contact-settings"><p class="kicker">CONTACT / 联系页配置</p><div class="settings-grid">
+    <label>介绍标题<input id="contactTitle"></label><label>结尾标语<input id="contactSlogan"></label><label class="wide">介绍文本<textarea id="contactIntro"></textarea></label><label>网站显示文字<input id="websiteLabel"></label><label>网站完整地址<input id="website" placeholder="https://www.sfy.cn"></label>
+  </div></section>
+  <section class="toolbar category-toolbar"><div><b>大类与展示项</b><small>拖动大类排序；每个大类内部可继续拖动卡片排序</small></div><button id="add-category">＋ 创建大类</button></section>
+  <section id="categories"></section>
+</main>
+<dialog id="category-editor"><form method="dialog"><div class="dialog-head"><b>编辑大类</b><button value="cancel">关闭 ×</button></div><div class="form-grid"><label>大类名称<input name="name" required></label><small>大类只负责对展示项进行分组。所有大类均使用相同的页面结构，可直接拖动排序。</small></div><div class="dialog-actions"><button type="button" id="delete-category">删除大类</button><button value="save" class="primary">应用修改</button></div></form></dialog>
+<dialog id="editor"><form method="dialog"><div class="dialog-head"><b>编辑展示项</b><button value="cancel">关闭 ×</button></div><div class="form-grid"><label>ID<input name="id" required></label><label>名称<input name="name" required></label><label class="wide">卡片短文案<input name="subtitle"></label><label class="wide">详情介绍<textarea name="description"></textarea></label><div class="wide image-editor"><div class="image-editor-head"><b>完整图片地址</b><button type="button" id="add-image">＋ 添加图片</button></div><div id="image-fields" class="image-fields"></div><small>每张图片对应一个输入框；顺序就是小程序详情中的图片顺序。</small></div><div id="image-previews" class="wide image-previews"></div><label class="check"><input type="checkbox" name="limited"> 显示“限制生产”提示</label><small class="wide">仅在小程序卡片和详情中显示提示文字，不会影响排序、库存或其他功能。</small></div><div class="dialog-actions"><button type="button" id="delete">删除</button><button value="save" class="primary">应用修改</button></div></form></dialog>
+<div id="toast"></div><script src="app.js"></script></body></html>
