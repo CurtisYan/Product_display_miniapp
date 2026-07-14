@@ -18,7 +18,7 @@ export default function usePageSwipe(active: MainPage) {
       if (Math.abs(dx) < 85 || Math.abs(dx) < Math.abs(dy) * 1.35) return
       const index = order.indexOf(active)
       const next = dx < 0 ? index + 1 : index - 1
-      if (next >= 0 && next < order.length) goToMainPage(order[next])
+      if (next >= 0 && next < order.length) goToMainPage(order[next], active)
     }
   }
 }

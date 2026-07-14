@@ -86,7 +86,7 @@ export default function ProductDetail({ product, onClose }: { product: Product |
   const touchEnd = (event: any) => {
     event.stopPropagation()
     stopDragTimer()
-    if (canDrag.current && dragYRef.current > 78) close()
+    if (canDrag.current && dragYRef.current > 44) close()
     else setDragY(0)
     canDrag.current = false
   }

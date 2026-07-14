@@ -8,7 +8,12 @@
 
 .category-tabs .pill {
   flex-shrink: 0;
-  margin-right: 12rpx;
+  min-height: 62rpx;
+  box-sizing: border-box;
+  padding: 20rpx 34rpx;
+  margin-right: 16rpx;
+  font-size: 28rpx;
+  line-height: 1;
 }
 
 .material-list {

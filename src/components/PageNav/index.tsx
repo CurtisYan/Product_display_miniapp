@@ -11,21 +11,37 @@ const items: Array<{ key: MainPage; number: string; label: string; url: string }
   { key: 'contact', number: '03', label: '联系', url: '/pages/contact/index' }
 ]
 
-export function goToMainPage(key: MainPage) {
+let pendingNavigation: { from: MainPage; target: MainPage } | null = null
+
+export function goToMainPage(key: MainPage, from?: MainPage) {
   const target = items.find(item => item.key === key)
+  if (target && from && from !== key) pendingNavigation = { from, target: key }
   if (target) Taro.redirectTo({ url: target.url })
 }
 
 export default function PageNav({ active }: { active: MainPage }) {
   const activeIndex = Math.max(0, items.findIndex(item => item.key === active))
-  const [cursorIndex, setCursorIndex] = useState(activeIndex)
-  const [transitioning, setTransitioning] = useState(false)
-  const timer = useRef<ReturnType<typeof setTimeout>>()
+  const entryFrom = useRef<MainPage | null>(pendingNavigation?.target === active ? pendingNavigation.from : null)
+  if (pendingNavigation?.target === active) pendingNavigation = null
+  const entryFromIndex = entryFrom.current ? items.findIndex(item => item.key === entryFrom.current) : activeIndex
+  const [cursorIndex, setCursorIndex] = useState(entryFromIndex < 0 ? activeIndex : entryFromIndex)
+  const [transitioning, setTransitioning] = useState(Boolean(entryFrom.current))
+  const animationTimer = useRef<ReturnType<typeof setTimeout>>()
+  const releaseTimer = useRef<ReturnType<typeof setTimeout>>()
 
   useEffect(() => {
-    setCursorIndex(activeIndex)
-    setTransitioning(false)
-    return () => { if (timer.current) clearTimeout(timer.current) }
+    if (entryFrom.current && entryFrom.current !== active) {
+      animationTimer.current = setTimeout(() => setCursorIndex(activeIndex), 16)
+      releaseTimer.current = setTimeout(() => setTransitioning(false), 460)
+      entryFrom.current = null
+    } else {
+      setCursorIndex(activeIndex)
+      setTransitioning(false)
+    }
+    return () => {
+      if (animationTimer.current) clearTimeout(animationTimer.current)
+      if (releaseTimer.current) clearTimeout(releaseTimer.current)
+    }
   }, [activeIndex])
 
   const goTo = (index: number) => {
@@ -33,12 +49,12 @@ export default function PageNav({ active }: { active: MainPage }) {
     const target = items[index]
     setCursorIndex(index)
     setTransitioning(true)
-    timer.current = setTimeout(() => {
-      Taro.redirectTo({ url: target.url }).catch(() => {
-        setCursorIndex(activeIndex)
-        setTransitioning(false)
-      })
-    }, 170)
+    pendingNavigation = { from: active, target: target.key }
+    Taro.redirectTo({ url: target.url }).catch(() => {
+      pendingNavigation = null
+      setCursorIndex(activeIndex)
+      setTransitioning(false)
+    })
   }
 
   const visualActive = items[cursorIndex].key

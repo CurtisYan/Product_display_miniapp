@@ -1,7 +1,8 @@
 .sky-detail{height:78vh;width:100%;background:var(--yellow);border-top:3rpx solid var(--ink);overflow:hidden}
 .sky-detail-scroll{height:100%;width:100%}
 .sky-detail-inner{min-height:78vh;box-sizing:border-box;padding:16rpx 34rpx 72rpx}
-.sky-detail-handle{width:82rpx;height:9rpx;border-radius:8rpx;background:rgba(0,0,0,.26);margin:0 auto 24rpx}
+.sky-detail-handle-area{height:42rpx;display:flex;align-items:flex-start;justify-content:center;margin:0 auto 8rpx}
+.sky-detail-handle{width:82rpx;height:9rpx;border-radius:8rpx;background:rgba(0,0,0,.26)}
 .sky-detail-top{display:flex;justify-content:space-between;align-items:center}
 .sky-detail-top>text{font-size:18rpx;font-weight:900;letter-spacing:2rpx}
 .sky-detail-share-button{width:auto!important;min-width:112rpx;margin:0!important;padding:0 18rpx!important;border:2rpx solid var(--ink)!important;border-radius:0!important;background:transparent!important;font-size:19rpx!important;font-weight:900!important;line-height:62rpx!important}

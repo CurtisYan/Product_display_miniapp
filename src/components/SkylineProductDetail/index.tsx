@@ -1,6 +1,6 @@
 import { Button, Image, PageContainer, ScrollView, ShareElement, Swiper, SwiperItem, Text, View } from '@tarojs/components'
 import Taro from '@tarojs/taro'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { products, type Product } from '@/data/products'
 import { saveShareRecord } from '@/utils/share'
 import './index.scss'
@@ -9,6 +9,9 @@ export default function SkylineProductDetail({ product, onClose }: { product: Pr
   const [lastProduct, setLastProduct] = useState<Product | null>(product)
   const [imageIndex, setImageIndex] = useState(0)
   const [imageHeights, setImageHeights] = useState<Record<string, number>>({})
+  const scrollTop = useRef(0)
+  const dragStartY = useRef(0)
+  const canQuickClose = useRef(false)
   useEffect(() => { if (product) { setLastProduct(product); setImageIndex(0) } }, [product])
   const shown = product || lastProduct
   const contentWidth = Taro.getWindowInfo().windowWidth * (1 - 68 / 750)
@@ -24,6 +27,15 @@ export default function SkylineProductDetail({ product, onClose }: { product: Pr
   const previewImage = (src: string) => {
     if (!shown) return
     Taro.previewImage({ current: src, urls: shown.images })
+  }
+  const startQuickClose = (event: any) => {
+    dragStartY.current = event.touches?.[0]?.clientY || 0
+    canQuickClose.current = scrollTop.current <= 2
+  }
+  const finishQuickClose = (event: any) => {
+    const endY = event.changedTouches?.[0]?.clientY || dragStartY.current
+    if (canQuickClose.current && endY - dragStartY.current > 42) onClose()
+    canQuickClose.current = false
   }
 
   useEffect(() => {
@@ -50,10 +62,10 @@ export default function SkylineProductDetail({ product, onClose }: { product: Pr
     onClickOverlay={onClose}
     onAfterLeave={() => { if (product) onClose() }}
   >
-    <View className='sky-detail'>
-      <ScrollView scrollY className='sky-detail-scroll' showScrollbar={false}>
+    <View className='sky-detail' onTouchStart={startQuickClose} onTouchEnd={finishQuickClose} onTouchCancel={finishQuickClose}>
+      <ScrollView scrollY className='sky-detail-scroll' showScrollbar={false} onScroll={event => { scrollTop.current = event.detail.scrollTop }}>
         <View className='sky-detail-inner'>
-          <View className='sky-detail-handle' />
+          <View className='sky-detail-handle-area' onClick={onClose}><View className='sky-detail-handle' /></View>
           <View className='sky-detail-top'>
             <Text>{productNumber} / {shown.category}</Text>
             <Button className='sky-detail-share-button' openType='share' data-product-id={shown.id} onClick={() => saveShareRecord(shown)}>分享 ↗</Button>

@@ -63,8 +63,8 @@ const SpecimenCard = memo(function SpecimenCard({
     const touch = event.touches?.[0] || event.changedTouches?.[0]
     if (!touch) return null
     return {
-      x: touch.clientX ?? touch.pageX ?? 0,
-      y: touch.clientY ?? touch.pageY ?? 0
+      x: touch.pageX ?? touch.clientX ?? 0,
+      y: touch.pageY ?? touch.clientY ?? 0
     }
   }
 
@@ -86,11 +86,11 @@ const SpecimenCard = memo(function SpecimenCard({
     if (Math.abs(next.x) > 5 || Math.abs(next.y) > 5) start.moved = true
     pendingDrag.current = next
     if (dragTimer.current) return
-    // 约 30fps 已足够跟手，并且这里只更新当前样品，不触发整页重绘。
+    // 跟随屏幕刷新更新当前样品；始终 catchMove，避免 Skyline 把拖动抢成页面滚动。
     dragTimer.current = setTimeout(() => {
       dragTimer.current = undefined
       setDragOffset({ ...pendingDrag.current })
-    }, 32)
+    }, 16)
   }
 
   const endDrag = (event: any) => {
@@ -134,7 +134,7 @@ const SpecimenCard = memo(function SpecimenCard({
       zIndex: dragging ? 12 : 2,
       transform: `translate3d(${dragOffset.x}px, ${dragOffset.y}px, 0)`
     }}
-    catchMove={dragging}
+    catchMove
     onTouchStart={startDrag}
     onTouchMove={trackDrag}
     onTouchEnd={endDrag}
@@ -150,6 +150,7 @@ const SpecimenCard = memo(function SpecimenCard({
 
 function Contact() {
   const [qrVisible, setQrVisible] = useState(false)
+  const [qrMounted, setQrMounted] = useState(false)
   const [loadedSpecimens, setLoadedSpecimens] = useState<Record<string, boolean>>({})
   const [showcaseEntered, setShowcaseEntered] = useState(false)
   const [slots, setSlots] = useState<Record<string, number>>(() => Object.fromEntries(SPECIMENS.map((specimen, index) => [specimen.id, index])))
@@ -172,6 +173,7 @@ function Contact() {
   const call = () => Taro.makePhoneCall({ phoneNumber: PHONE }).catch(() => undefined)
   const copyPhone = () => Taro.setClipboardData({ data: PHONE })
   const openWebsite = () => Taro.navigateTo({ url: `/pages/webview/index?url=${encodeURIComponent(catalogSettings.website)}` })
+  const openQr = () => { setQrMounted(true); setQrVisible(true) }
   const dropSpecimen = useCallback((productId: string, sourceSlot: number, finalOffset: DragPoint) => {
     Taro.createSelectorQuery().select('#specimen-board').boundingClientRect(rect => {
       const bounds = Array.isArray(rect) ? rect[0] : rect
@@ -210,7 +212,7 @@ function Contact() {
           <View className='archive-spine'><Text>MEISU</Text><Text>PACKAGING</Text></View>
           <View className='archive-frame'>
             <View className='specimen-heading'>
-              <View><Text>PRODUCT COMPOSITION / 01</Text><Text>精美产品展示</Text><Text>纸张、油墨与工业材料的编辑部档案盒</Text></View>
+              <View><Text>VISUAL COMPOSITION / 01</Text><Text>材质灵感拼贴</Text><Text>纸张、油墨与工业材料的灵感档案盒</Text></View>
               <View className='archive-heading-dot' />
             </View>
             <View id='specimen-board' className='specimen-board'>
@@ -244,7 +246,7 @@ function Contact() {
           <View><Text>深圳市美塑包装材料有限公司</Text><Text>广东省惠州市沥林镇</Text></View>
         </View>
 
-        <View className='wechat-card' onClick={() => setQrVisible(true)}>
+        <View className='wechat-card' onClick={openQr}>
           <View><Text>微信联系</Text><Text>点击查看微信二维码</Text></View><Text className='wechat-arrow'>↗</Text>
         </View>
 
@@ -258,13 +260,13 @@ function Contact() {
     </ScrollView>
     <PageNav active='contact' />
 
-    {qrVisible && <View className='qr-mask' onClick={() => setQrVisible(false)}>
-      <View className='qr-sheet' onClick={event => event.stopPropagation()}>
+    <View className={`qr-mask ${qrVisible ? 'qr-mask--visible' : ''}`} catchMove={qrVisible} onClick={() => setQrVisible(false)}>
+      {qrMounted && <View className='qr-sheet' onClick={event => event.stopPropagation()}>
         <View className='qr-sheet-head'><Text>微信二维码</Text><Text>点击外部关闭</Text></View>
         <Image className='qr-image' src={QR} mode='widthFix' showMenuByLongpress />
         <Text className='qr-tip'>长按二维码，使用微信菜单识别</Text>
-      </View>
-    </View>}
+      </View>}
+    </View>
   </View>
 }
 

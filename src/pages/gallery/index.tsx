@@ -1,4 +1,4 @@
-import { Image, Input, ScrollView, ShareElement, Text, View } from '@tarojs/components'
+import { Image, Input, ScrollView, ShareElement, Swiper, SwiperItem, Text, View } from '@tarojs/components'
 import Taro, { useDidHide, useDidShow, useLoad, useShareAppMessage, useShareTimeline } from '@tarojs/taro'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import SiteHeader from '@/components/SiteHeader'
@@ -13,35 +13,28 @@ export default function Gallery() {
   const [selected, setSelected] = useState<Product | null>(null)
   const [keyword, setKeyword] = useState('')
   const [heroIndex, setHeroIndex] = useState(0)
-  const [heroPhase, setHeroPhase] = useState('')
+  const [heroImageHeights, setHeroImageHeights] = useState<Record<string, number>>({})
   const [pageActive, setPageActive] = useState(true)
-  const [heroDrag, setHeroDrag] = useState({ x: 0, y: 0 })
-  const [heroDragging, setHeroDragging] = useState(false)
   const handledShare = useRef('')
-  const heroStart = useRef({ x: 0, y: 0 })
-  const heroPending = useRef({ x: 0, y: 0 })
-  const heroTimer = useRef<ReturnType<typeof setTimeout>>()
-  const heroSwitchTimer = useRef<ReturnType<typeof setTimeout>>()
-  const heroEnterTimer = useRef<ReturnType<typeof setTimeout>>()
-  const blockHeroClick = useRef(false)
-  const clickTimer = useRef<ReturnType<typeof setTimeout>>()
   const hero = products.find(product => product.id === catalogSettings.heroId) || products[0]
   const heroImage = hero.images[heroIndex]
-  const heroStack = Array.from({ length: Math.min(3, Math.max(0, hero.images.length - 1)) }, (_, index) => ({
-    depth: index + 1,
-    src: hero.images[(heroIndex + index + 1) % hero.images.length]
-  }))
+  const heroFrameWidth = Taro.getWindowInfo().windowWidth * (1 - 192 / 750)
+  const heroImageHeight = heroImageHeights[heroImage] || Math.round(heroFrameWidth * .72)
+  const heroStageHeight = heroImageHeight + Taro.getWindowInfo().windowWidth * 250 / 750
   const list = useMemo(
     () => products.filter(product => product.id !== hero.id && (!keyword || `${product.name}${product.subtitle}`.toLowerCase().includes(keyword.toLowerCase()))),
     [hero.id, keyword]
   )
 
-  useEffect(() => () => {
-    if (heroTimer.current) clearTimeout(heroTimer.current)
-    if (heroSwitchTimer.current) clearTimeout(heroSwitchTimer.current)
-    if (heroEnterTimer.current) clearTimeout(heroEnterTimer.current)
-    if (clickTimer.current) clearTimeout(clickTimer.current)
-  }, [])
+  useEffect(() => {
+    hero.images.forEach(src => {
+      Taro.getImageInfo({ src }).then(info => {
+        if (!info.width || !info.height) return
+        const height = Math.round(heroFrameWidth * info.height / info.width)
+        setHeroImageHeights(current => current[src] === height ? current : { ...current, [src]: height })
+      }).catch(() => undefined)
+    })
+  }, [hero.id, heroFrameWidth])
 
   const openSharedProduct = (productId?: string) => {
     if (!productId || handledShare.current === productId) return
@@ -61,82 +54,6 @@ export default function Gallery() {
   })
   useShareTimeline(() => ({ title: selected ? `美塑包装｜${selected.name}` : '美塑包装｜产品展厅', query: selected ? `productId=${selected.id}` : '' }))
 
-  const switchHero = (direction: 'left' | 'right' | 'up' | 'down', step: number) => {
-    if (hero.images.length < 2 || heroPhase) return
-    blockHeroClick.current = true
-    setHeroPhase(direction)
-    heroSwitchTimer.current = setTimeout(() => {
-      setHeroIndex(index => (index + step + hero.images.length) % hero.images.length)
-      const entrance = direction === 'left' ? 'from-right' : direction === 'right' ? 'from-left' : direction === 'up' ? 'from-down' : 'from-up'
-      setHeroDrag({ x: 0, y: 0 })
-      setHeroPhase(entrance)
-      heroEnterTimer.current = setTimeout(() => {
-        setHeroPhase('')
-        clickTimer.current = setTimeout(() => { blockHeroClick.current = false }, 380)
-      }, 34)
-    }, 260)
-  }
-  const heroTouchStart = (event: any) => {
-    if (heroPhase) return
-    const touch = event.touches[0]
-    if (!touch) return
-    if (heroTimer.current) clearTimeout(heroTimer.current)
-    if (clickTimer.current) clearTimeout(clickTimer.current)
-    heroStart.current = { x: touch.clientX, y: touch.clientY }
-    heroPending.current = { x: 0, y: 0 }
-    blockHeroClick.current = false
-    setHeroDragging(true)
-  }
-  const heroTouchMove = (event: any) => {
-    const touch = event.touches[0]
-    if (!touch) return
-    const dx = touch.clientX - heroStart.current.x
-    const dy = touch.clientY - heroStart.current.y
-    if (Math.abs(dx) > 7 || Math.abs(dy) > 7) blockHeroClick.current = true
-    heroPending.current = { x: Math.max(-90, Math.min(90, dx)), y: Math.max(-90, Math.min(90, dy)) }
-    if (!heroTimer.current) {
-      heroTimer.current = setTimeout(() => {
-        heroTimer.current = undefined
-        setHeroDrag(heroPending.current)
-      }, 32)
-    }
-  }
-  const heroTouchEnd = () => {
-    if (heroTimer.current) clearTimeout(heroTimer.current)
-    heroTimer.current = undefined
-    setHeroDragging(false)
-    const { x, y } = heroPending.current
-    const horizontal = Math.abs(x) >= Math.abs(y)
-    if (Math.max(Math.abs(x), Math.abs(y)) >= 38) {
-      if (horizontal) switchHero(x < 0 ? 'left' : 'right', x < 0 ? 1 : -1)
-      else switchHero(y < 0 ? 'up' : 'down', y < 0 ? 1 : -1)
-    } else {
-      setHeroDrag({ x: 0, y: 0 })
-      if (blockHeroClick.current) clickTimer.current = setTimeout(() => { blockHeroClick.current = false }, 120)
-    }
-  }
-  const handleHeroClick = () => {
-    if (!blockHeroClick.current) switchHero('left', 1)
-  }
-
-  const heroTransform = heroPhase === 'left'
-    ? 'perspective(780px) translate3d(-125%, -5%, 32px) rotate(-9deg)'
-    : heroPhase === 'right'
-      ? 'perspective(780px) translate3d(125%, 5%, 32px) rotate(9deg)'
-      : heroPhase === 'up'
-        ? 'perspective(780px) translate3d(0, -125%, 32px) rotate(3deg)'
-        : heroPhase === 'down'
-          ? 'perspective(780px) translate3d(0, 125%, 32px) rotate(-3deg)'
-          : heroPhase === 'from-right'
-            ? 'perspective(780px) translate3d(125%, 5%, 32px) rotate(9deg)'
-            : heroPhase === 'from-left'
-              ? 'perspective(780px) translate3d(-125%, -5%, 32px) rotate(-9deg)'
-              : heroPhase === 'from-down'
-                ? 'perspective(780px) translate3d(0, 125%, 32px) rotate(-3deg)'
-                : heroPhase === 'from-up'
-                  ? 'perspective(780px) translate3d(0, -125%, 32px) rotate(3deg)'
-                  : `perspective(780px) rotateX(${-heroDrag.y / 18}deg) rotateY(${heroDrag.x / 15}deg) translate3d(${heroDrag.x * .82}px,${heroDrag.y * .82}px,30px) rotate(${heroDrag.x / 35}deg)`
-
   return <View className='skyline-shell'>
     <ScrollView scrollY className='skyline-scroll' showScrollbar={false}>
       <View className={`safe-page gallery ${!pageActive || selected ? 'gallery--paused' : ''}`}>
@@ -145,37 +62,36 @@ export default function Gallery() {
         <View className='title-block'><Text className='title-line'>{catalogSettings.headlinePrimary}</Text><Text className='title-line title-line--serif'>{catalogSettings.headlineSecondary}</Text></View>
         <Text className='intro'>{catalogSettings.intro}</Text>
 
-        <View
-          className={`hero-stage ${heroDragging ? 'hero-stage--dragging' : ''}`}
-          onClick={handleHeroClick}
-          onTouchStart={heroTouchStart}
-          onTouchMove={heroTouchMove}
-          onTouchEnd={heroTouchEnd}
-          onTouchCancel={heroTouchEnd}
-        >
+        <View className='hero-stage' style={{ height: `${heroStageHeight}px` }}>
           <View className='hero-stage-grid' />
-          <View className='hero-orbit hero-orbit--a' style={{ transform: `translate(${heroDrag.x * -.12}px,${heroDrag.y * -.12}px)` }} />
-          <View className='hero-orbit hero-orbit--b' style={{ transform: `translate(${heroDrag.x * .18}px,${heroDrag.y * .18}px)` }} />
-          {heroStack.slice().reverse().map(card => <View className={`hero-stack-card hero-stack-card--${card.depth}`} key={`${card.src}-${card.depth}`}>
-            <View className='hero-stack-glass' />
-            <Image className='hero-stack-image' src={card.src} mode='aspectFit' lazyLoad />
-          </View>)}
+          <View className='hero-orbit hero-orbit--a' />
+          <View className='hero-orbit hero-orbit--b' />
           <ShareElement
-            className={`hero-product ${heroPhase.startsWith('from-') ? 'hero-product--teleport' : ''}`}
-            style={{ transform: heroTransform }}
+            className='hero-product'
+            style={{ height: `${heroImageHeight}px` }}
             mapkey={`product-${hero.id}`}
             transform={selected?.id === hero.id}
             transitionOnGesture
             duration={520}
             rectTweenType='materialRectArc'
           >
-            <View className='hero-glass' />
-            <Image key={heroImage} className='hero-product-image' src={heroImage} mode='aspectFit' />
-            <View className='hero-refraction' style={{ transform: `translateX(${heroDrag.x * 2.7}px) rotate(18deg)` }} />
+            <Swiper
+              className='hero-swiper'
+              circular={hero.images.length > 1}
+              vertical={false}
+              duration={320}
+              easingFunction='easeOutCubic'
+              skipHiddenItemLayout
+              onChange={event => setHeroIndex(event.detail.current)}
+            >
+              {hero.images.map(src => <SwiperItem key={src}>
+                <Image className='hero-product-image' src={src} mode='widthFix' lazyLoad={src !== hero.images[0]} />
+              </SwiperItem>)}
+            </Swiper>
           </ShareElement>
           <View className='hero-meta'><Text>PRODUCT · {String(products.findIndex(item => item.id === hero.id) + 1).padStart(3, '0')}</Text><Text>{hero.name}</Text><Text>{hero.subtitle}</Text></View>
           {hero.images.length > 1 && <View className='hero-pages'>{hero.images.map((_, index) => <Text key={index} className={index === heroIndex ? 'active' : ''} />)}</View>}
-          <View className='hero-detail' onClick={event => { event.stopPropagation(); setSelected(hero) }}>查看大图 <Text>↗</Text></View>
+          <View className='hero-detail' onClick={() => setSelected(hero)}>查看大图 <Text>↗</Text></View>
         </View>
 
         <View className='marquee'><Text>{catalogSettings.marqueeText} · {catalogSettings.marqueeText} ·</Text></View>
