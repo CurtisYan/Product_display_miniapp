@@ -253,7 +253,7 @@ function Contact() {
         <View className='company-note'>
           <Text className='company-note-title'>{catalogSettings.contactTitle}</Text>
           <Text className='company-note-copy'>{catalogSettings.contactIntro}</Text>
-          <Text className='company-site' onClick={openWebsite}>{catalogSettings.websiteLabel} · 点击跳转 ↗</Text>
+          <Text className='company-site' onClick={openWebsite}>{catalogSettings.websiteLabel} · 了解更多，请点击 ↗</Text>
           <Text className='company-slogan'>{catalogSettings.contactSlogan}</Text>
         </View>
       </View>

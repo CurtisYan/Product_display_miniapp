@@ -7,7 +7,7 @@ const products=[
   {id:'B2',name:'自封口 PE 袋',subtitle:'柔韧与防护兼得',category:'塑料包装',desc:'便捷密封，可按尺寸、厚度及印刷要求定制。',images:['自封口PE袋.jpg'],color:'#c8f04f'},
   {id:'B5',name:'PE 袋',subtitle:'轻薄、耐用、按需定制',category:'塑料包装',desc:'通用型工业包装，可按需求定制。',images:['PE袋.jpg'],color:'#f3cd45'},
   {id:'A2',name:'海绵',subtitle:'柔软，也可以非常精确',category:'泡棉材料',desc:'多用途缓冲材料，可按产品结构裁切。',images:['海绵1.jpg','海绵2.jpg','海绵3.jpg'],color:'#7ca9ff'},
-  {id:'A1',name:'珍珠棉',subtitle:'轻盈缓冲材料',category:'泡棉材料',desc:'受生产限制的缓冲材料，保留在分类末位展示。',images:['珍珠棉1.png','珍珠棉2.png','珍珠棉3.png','珍珠棉4.jpg'],color:'#ded8cc'},
+  {id:'A1',name:'珍珠棉',subtitle:'轻盈缓冲材料',category:'泡棉材料',desc:'用于缓冲、隔离和保护的轻质材料，可按产品结构与尺寸要求裁切成型。',images:['珍珠棉1.png','珍珠棉2.png','珍珠棉3.png','珍珠棉4.jpg'],color:'#ded8cc'},
   {id:'C1',name:'食品级原料',subtitle:'从原料开始控制品质',category:'工厂机器',desc:'从源头把控材料稳定性与洁净度。',images:['食品级原料.jpg'],color:'#c8f04f'},
   {id:'C2',name:'整洁车间',subtitle:'规范、洁净的生产现场',category:'工厂机器',desc:'整洁有序的生产车间，为稳定生产提供保障。',images:['整洁车间.jpg'],color:'#8bd3df'},
   {id:'C3',name:'大型仓库',subtitle:'充足库存与规范仓储',category:'工厂机器',desc:'支持日常供货与定制订单周转。',images:['大型仓库.png'],color:'#f1b1c6'},

@@ -57,7 +57,6 @@ export default function Category() {
           <Text className='material-index'>{String(products.findIndex(item => item.id === product.id) + 1).padStart(2, '0')} / {active}</Text>
           <Text className='material-name'>{product.name}</Text>
           <Text className='material-subtitle'>{product.subtitle}</Text>
-          {product.limited && <Text className='limited-badge'>限制生产 · 末位展示</Text>}
         </View>
         <Text className='material-arrow'>↗</Text>
       </View>)}

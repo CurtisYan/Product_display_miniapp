@@ -13,7 +13,7 @@
 ## 页面
 
 - `pages/gallery/index`：产品展厅、搜索、视觉化产品卡片、产品详情
-- `pages/category/index`：分类浏览，防静电袋、网格袋、黑色袋优先，珍珠棉末位
+- `pages/category/index`：按材料分类浏览产品与工厂、质量展示内容
 - `pages/contact/index`：公司资料、电话、微信二维码、产品范围和官网
 
 ## 开发

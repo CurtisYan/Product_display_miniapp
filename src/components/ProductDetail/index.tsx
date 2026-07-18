@@ -114,9 +114,9 @@ export default function ProductDetail({ product, onClose }: { product: Product |
       onTouchEnd={touchEnd}
       onTouchCancel={touchEnd}
     >
+      <View className='detail-handle-area' onClick={event => { event.stopPropagation(); close() }}><View className='detail-handle' /></View>
       <ScrollView scrollY className='detail-scroll' onScroll={event => { scrollTop.current = event.detail.scrollTop }}>
         <View className='detail-inner'>
-          <View className='detail-handle' />
           <View className='detail-top'>
             <Text>{productNumber} / {product.category}</Text>
             <Button className='detail-share' openType='share' data-product-id={product.id} onClick={() => saveShareRecord(product)}>分享 ↗</Button>
@@ -131,7 +131,6 @@ export default function ProductDetail({ product, onClose }: { product: Product |
           </View>
           <Text className='detail-image-tip'>{product.images.length > 1 ? `点击放大 · 左右滑动查看 ${product.images.length} 张图片` : '点击图片放大查看'}</Text>
           <Text className='detail-copy'>{product.description}</Text>
-          {product.limited && <Text className='limited-note'>限制生产 · 分类末位展示</Text>}
           <View className='detail-actions'>
             <Button onClick={() => Taro.redirectTo({ url: '/pages/contact/index' })}>咨询这种材料 ↗</Button>
             <Button onClick={onClose}>继续浏览</Button>

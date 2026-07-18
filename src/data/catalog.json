@@ -95,9 +95,8 @@
       "id": "A1",
       "name": "珍珠棉",
       "subtitle": "轻盈缓冲材料",
-      "description": "用于缓冲、隔离和保护的轻质材料，受生产限制，保留在产品分类末位展示。",
+      "description": "用于缓冲、隔离和保护的轻质材料，可按产品结构与尺寸要求裁切成型。",
       "category": "产品",
-      "limited": true,
       "images": [
         "products/产品/珍珠棉/珍珠棉1.png",
         "products/产品/珍珠棉/珍珠棉2.png",

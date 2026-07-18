@@ -1,6 +1,6 @@
 import catalog from './catalog.json'
 
-export type Product={id:string;name:string;subtitle:string;description:string;category:string;images:string[];priority:number;limited?:boolean}
+export type Product={id:string;name:string;subtitle:string;description:string;category:string;images:string[];priority:number}
 export type CatalogSettings=typeof catalog.settings
 export type CatalogCategory=typeof catalog.categories[number]
 

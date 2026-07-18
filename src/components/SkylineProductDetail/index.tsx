@@ -63,9 +63,9 @@ export default function SkylineProductDetail({ product, onClose }: { product: Pr
     onAfterLeave={() => { if (product) onClose() }}
   >
     <View className='sky-detail' onTouchStart={startQuickClose} onTouchEnd={finishQuickClose} onTouchCancel={finishQuickClose}>
+      <View className='sky-detail-handle-area' onClick={onClose}><View className='sky-detail-handle' /></View>
       <ScrollView scrollY className='sky-detail-scroll' showScrollbar={false} onScroll={event => { scrollTop.current = event.detail.scrollTop }}>
         <View className='sky-detail-inner'>
-          <View className='sky-detail-handle-area' onClick={onClose}><View className='sky-detail-handle' /></View>
           <View className='sky-detail-top'>
             <Text>{productNumber} / {shown.category}</Text>
             <Button className='sky-detail-share-button' openType='share' data-product-id={shown.id} onClick={() => saveShareRecord(shown)}>分享 ↗</Button>
@@ -90,7 +90,6 @@ export default function SkylineProductDetail({ product, onClose }: { product: Pr
           <Text className='sky-detail-tip'>{shown.images.length > 1 ? `点击放大 · 左右滑动查看 ${shown.images.length} 张图片` : '点击图片放大查看'}</Text>
           <View className='sky-detail-rule' />
           <Text className='sky-detail-copy'>{shown.description}</Text>
-          {shown.limited && <Text className='sky-detail-limited'>限制生产 · 分类末位展示</Text>}
           <View className='sky-detail-actions'>
             <Button onClick={() => Taro.redirectTo({ url: '/pages/contact/index' })}>咨询这种材料 ↗</Button>
             <Button onClick={onClose}>继续浏览</Button>

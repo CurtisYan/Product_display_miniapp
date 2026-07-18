@@ -1,11 +1,12 @@
 .detail-mask{position:fixed;z-index:80;left:0;right:0;top:0;bottom:0;background:rgba(32,33,29,.38);display:flex;align-items:flex-end;animation:detail-mask-in .34s ease both;transition:background .46s ease}
 .detail-mask--closing{background:rgba(32,33,29,0)}
-.detail-sheet{height:78vh;width:100%;background:var(--yellow);animation:detail-sheet-in .58s cubic-bezier(.16,1,.3,1) both;transition:transform .42s cubic-bezier(.22,1,.36,1);overflow:hidden}
+.detail-sheet{height:78vh;width:100%;position:relative;background:var(--yellow);animation:detail-sheet-in .58s cubic-bezier(.16,1,.3,1) both;transition:transform .42s cubic-bezier(.22,1,.36,1);overflow:hidden}
 .detail-sheet--closing{transition:transform .46s cubic-bezier(.55,.06,.68,.19)}
 .detail-sheet--dragging{transition:none}
 .detail-scroll{height:100%;width:100%}
-.detail-inner{min-height:78vh;box-sizing:border-box;padding:16rpx 34rpx 58rpx}
-.detail-handle{width:82rpx;height:9rpx;border-radius:8rpx;background:rgba(0,0,0,.28);margin:0 auto 24rpx}
+.detail-inner{min-height:78vh;box-sizing:border-box;padding:68rpx 34rpx 58rpx}
+.detail-handle-area{position:absolute;z-index:10;left:0;right:0;top:0;height:52rpx;display:flex;align-items:center;justify-content:center;background:var(--yellow)}
+.detail-handle{width:82rpx;height:9rpx;border-radius:8rpx;background:rgba(0,0,0,.28)}
 .detail-top{display:flex;justify-content:space-between;align-items:center}
 .detail-top>text{font-size:18rpx;font-weight:900;letter-spacing:2rpx}
 .detail-share{width:auto!important;min-width:112rpx;margin:0!important;padding:0 18rpx!important;border:2rpx solid var(--ink)!important;border-radius:0!important;background:transparent!important;font-size:19rpx!important;font-weight:900!important;line-height:62rpx!important}
@@ -21,7 +22,6 @@
 .detail-dots view.is-active{width:36rpx;border-radius:12rpx;background:var(--ink)}
 .detail-image-tip{display:block;text-align:center;font-size:19rpx;margin-top:14rpx;opacity:.62}
 .detail-copy{display:block;font-size:27rpx;line-height:1.65;margin:28rpx 0 24rpx}
-.limited-note{display:inline-block;border:2rpx solid;padding:10rpx;font-size:20rpx}
 .detail-actions{display:flex;margin-top:28rpx}
 .detail-actions button{flex:1;border:3rpx solid var(--ink);border-radius:0;background:transparent;font-size:23rpx;font-weight:900;margin-right:12rpx}
 .detail-actions button:first-child{background:var(--ink);color:#fff}

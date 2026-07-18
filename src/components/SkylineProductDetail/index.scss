@@ -1,7 +1,7 @@
-.sky-detail{height:78vh;width:100%;background:var(--yellow);border-top:3rpx solid var(--ink);overflow:hidden}
+.sky-detail{height:78vh;width:100%;position:relative;background:var(--yellow);border-top:3rpx solid var(--ink);overflow:hidden}
 .sky-detail-scroll{height:100%;width:100%}
-.sky-detail-inner{min-height:78vh;box-sizing:border-box;padding:16rpx 34rpx 72rpx}
-.sky-detail-handle-area{height:42rpx;display:flex;align-items:flex-start;justify-content:center;margin:0 auto 8rpx}
+.sky-detail-inner{min-height:78vh;box-sizing:border-box;padding:68rpx 34rpx 72rpx}
+.sky-detail-handle-area{position:absolute;z-index:10;left:0;right:0;top:0;height:52rpx;display:flex;align-items:center;justify-content:center;background:var(--yellow)}
 .sky-detail-handle{width:82rpx;height:9rpx;border-radius:8rpx;background:rgba(0,0,0,.26)}
 .sky-detail-top{display:flex;justify-content:space-between;align-items:center}
 .sky-detail-top>text{font-size:18rpx;font-weight:900;letter-spacing:2rpx}
@@ -19,7 +19,6 @@
 .sky-detail-tip{display:block;text-align:center;font-size:19rpx;margin:14rpx 0 0;opacity:.6}
 .sky-detail-rule{height:3rpx;background:var(--ink);margin:28rpx 0 20rpx}
 .sky-detail-copy{display:block;font-size:26rpx;line-height:1.65}
-.sky-detail-limited{display:inline-block;border:2rpx solid;padding:9rpx 12rpx;font-size:19rpx;margin-top:20rpx}
 .sky-detail-actions{display:flex;margin-top:30rpx}
 .sky-detail-actions button{flex:1;border:3rpx solid var(--ink);background:transparent;border-radius:0;font-size:23rpx;font-weight:900;margin-right:12rpx}
 .sky-detail-actions button:first-child{background:var(--ink);color:#fff}
