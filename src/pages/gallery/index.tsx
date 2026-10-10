@@ -2,9 +2,7 @@ import { Image, Input, ScrollView, Text, View } from '@tarojs/components'
 import Taro, { useDidHide, useDidShow, useLoad, useShareAppMessage, useShareTimeline } from '@tarojs/taro'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import SiteHeader from '@/components/SiteHeader'
-import PageNav, { registerMainPageHandler, type MainPage } from '@/components/PageNav'
-import Category from '@/pages/category'
-import Contact from '@/pages/contact'
+import PageNav from '@/components/PageNav'
 import CachedImage from '@/components/CachedImage'
 import SkylineProductDetail from '@/components/SkylineProductDetail'
 import { catalogSettings, products, type Product } from '@/data/products'
@@ -12,7 +10,6 @@ import { buildProductShare } from '@/utils/share'
 import './index.scss'
 
 export default function Gallery() {
-  const [active, setActive] = useState<MainPage>('gallery')
   const [selected, setSelected] = useState<Product | null>(null)
   const [keyword, setKeyword] = useState('')
   const [heroIndex, setHeroIndex] = useState(0)
@@ -46,7 +43,6 @@ export default function Gallery() {
     if (heroAnimationTimer.current) clearTimeout(heroAnimationTimer.current)
     if (heroResetTimer.current) clearTimeout(heroResetTimer.current)
   }, [])
-  useEffect(() => registerMainPageHandler(setActive), [])
 
   const saveHeroImageSize = (src: string, width: number, height: number) => {
     if (!width || !height) return
@@ -138,10 +134,7 @@ export default function Gallery() {
     const product = products.find(item => item.id === productId)
     if (product) { handledShare.current = productId; setSelected(product) }
   }
-  useLoad(({ productId, view }) => {
-    if (view === 'category' || view === 'contact') setActive(view)
-    openSharedProduct(productId)
-  })
+  useLoad(({ productId }) => openSharedProduct(productId))
   useDidShow(() => {
     setPageActive(true)
     openSharedProduct(Taro.getEnterOptionsSync().query?.productId as string | undefined)
@@ -150,15 +143,11 @@ export default function Gallery() {
   useShareAppMessage((event: any) => {
     const productId = event?.target?.dataset?.productId
     const product = products.find(item => item.id === productId) || selected
-    if (product) return buildProductShare(product)
-    if (active === 'contact') return { title: '深圳市美塑包装材料有限公司', path: '/pages/contact/index' }
-    if (active === 'category') return { title: '美塑包装｜产品分类', path: '/pages/category/index' }
-    return { title: '美塑包装｜工业包装材料产品展厅', path: '/pages/gallery/index' }
+    return product ? buildProductShare(product) : { title: '美塑包装｜工业包装材料产品展厅', path: '/pages/gallery/index' }
   })
   useShareTimeline(() => ({ title: selected ? `美塑包装｜${selected.name}` : '美塑包装｜产品展厅', query: selected ? `productId=${selected.id}` : '' }))
 
-  return <View className='main-shell'>
-    {active === 'gallery' && <View className='skyline-shell'>
+  return <View className='skyline-shell'>
     <ScrollView scrollY className='skyline-scroll' showScrollbar={false}>
       <View className={`safe-page gallery ${!pageActive || selected ? 'gallery--paused' : ''}`}>
         <SiteHeader />
@@ -208,9 +197,6 @@ export default function Gallery() {
       </View>
     </ScrollView>
     <SkylineProductDetail product={selected} onClose={() => setSelected(null)} />
-    </View>}
-    {active === 'category' && <Category embedded />}
-    {active === 'contact' && <Contact embedded />}
-    <PageNav active={active} />
+    <PageNav active='gallery' />
   </View>
 }

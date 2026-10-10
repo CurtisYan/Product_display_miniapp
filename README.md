@@ -23,7 +23,7 @@ npm install
 npm run dev:weapp
 ```
 
-在微信开发者工具中导入项目根目录，开发工具读取 `project.config.json` 并使用 `dist` 作为小程序目录。
+在微信开发者工具中可直接导入构建后的 `dist`。也可导入项目根目录：根目录的 `project.config.json` 已将 `miniprogramRoot` 指向 `dist/`。从 GitHub 下载代码后，先运行 `npm install` 和 `npm run build:weapp` 生成 `dist`。
 
 ## 构建
 
