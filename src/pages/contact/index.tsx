@@ -3,7 +3,6 @@ import Taro, { useShareAppMessage } from '@tarojs/taro'
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { catalogSettings } from '@/data/products'
 import SiteHeader from '@/components/SiteHeader'
-import PageNav from '@/components/PageNav'
 import './index.scss'
 
 const OSS = 'https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/'
@@ -258,7 +257,6 @@ function Contact() {
         </View>
       </View>
     </ScrollView>
-    <PageNav active='contact' />
 
     <View className={`qr-mask ${qrVisible ? 'qr-mask--visible' : ''}`} catchMove={qrVisible} onClick={() => setQrVisible(false)}>
       {qrMounted && <View className='qr-sheet' onClick={event => event.stopPropagation()}>

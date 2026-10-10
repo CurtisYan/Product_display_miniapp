@@ -3,7 +3,6 @@ import { useMemo, useState } from 'react'
 import { useShareAppMessage } from '@tarojs/taro'
 import SiteHeader from '@/components/SiteHeader'
 import SkylineProductDetail from '@/components/SkylineProductDetail'
-import PageNav from '@/components/PageNav'
 import CachedImage from '@/components/CachedImage'
 import { categories, products, type Product } from '@/data/products'
 import './index.scss'
@@ -52,6 +51,5 @@ export default function Category() {
       </View>
     </ScrollView>
     <SkylineProductDetail product={selected} onClose={() => setSelected(null)} />
-    <PageNav active='category' />
   </View>
 }

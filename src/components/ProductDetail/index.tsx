@@ -3,7 +3,7 @@ import Taro from '@tarojs/taro'
 import { useEffect, useRef, useState } from 'react'
 import { products, type Product } from '@/data/products'
 import { saveShareRecord } from '@/utils/share'
-import { goToMainPage } from '@/components/PageNav'
+import { goToMainPage } from '@/utils/navigation'
 import './index.scss'
 
 export default function ProductDetail({ product, onClose }: { product: Product | null; onClose: () => void }) {

@@ -2,7 +2,6 @@ import { Image, Input, ScrollView, Text, View } from '@tarojs/components'
 import Taro, { useDidHide, useDidShow, useLoad, useShareAppMessage, useShareTimeline } from '@tarojs/taro'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import SiteHeader from '@/components/SiteHeader'
-import PageNav from '@/components/PageNav'
 import CachedImage from '@/components/CachedImage'
 import SkylineProductDetail from '@/components/SkylineProductDetail'
 import { catalogSettings, products, type Product } from '@/data/products'
@@ -197,6 +196,5 @@ export default function Gallery() {
       </View>
     </ScrollView>
     <SkylineProductDetail product={selected} onClose={() => setSelected(null)} />
-    <PageNav active='gallery' />
   </View>
 }
