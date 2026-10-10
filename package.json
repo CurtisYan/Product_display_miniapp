@@ -4,9 +4,8 @@
   "private": true,
   "scripts": {
     "admin": "node scripts/admin-server.cjs",
-    "dev:weapp": "taro build --type weapp --watch",
-    "prebuild:weapp": "node scripts/clean-dist.cjs",
-    "build:weapp": "taro build --type weapp"
+    "dev:weapp": "node scripts/build-weapp.cjs --watch",
+    "build:weapp": "node scripts/build-weapp.cjs"
   },
   "dependencies": {
     "@tarojs/components": "^4.0.8",
