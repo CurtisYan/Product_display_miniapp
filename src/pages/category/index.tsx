@@ -8,7 +8,7 @@ import CachedImage from '@/components/CachedImage'
 import { categories, products, type Product } from '@/data/products'
 import './index.scss'
 
-export default function Category() {
+export default function Category({ embedded = false }: { embedded?: boolean }) {
   const [active, setActive] = useState(categories[0])
   const [selected, setSelected] = useState<Product | null>(null)
   const list = useMemo(() => products.filter(product => product.category === active), [active])
@@ -52,6 +52,6 @@ export default function Category() {
       </View>
     </ScrollView>
     <SkylineProductDetail product={selected} onClose={() => setSelected(null)} />
-    <PageNav active='category' />
+    {!embedded && <PageNav active='category' />}
   </View>
 }

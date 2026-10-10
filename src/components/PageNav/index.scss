@@ -1,4 +1,4 @@
-.page-nav{position:fixed;z-index:60;left:22rpx;right:22rpx;bottom:38rpx;height:108rpx;border:3rpx solid var(--ink);background:rgba(244,240,231,.96);box-shadow:8rpx 8rpx 0 rgba(32,33,29,.18);overflow:hidden}
+.page-nav{position:absolute;z-index:60;left:22rpx;right:22rpx;bottom:38rpx;height:108rpx;border:3rpx solid var(--ink);background:rgba(244,240,231,.96);box-shadow:8rpx 8rpx 0 rgba(32,33,29,.18);overflow:hidden}
 .page-nav-spectrum{position:absolute;z-index:4;left:0;right:0;top:0;height:9rpx;display:flex}
 .page-nav-spectrum view{width:33.333%;height:100%}
 .page-nav-spectrum view:first-child{background:var(--coral)}

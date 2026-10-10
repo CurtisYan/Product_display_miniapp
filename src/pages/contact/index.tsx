@@ -148,7 +148,7 @@ const SpecimenCard = memo(function SpecimenCard({
   </View>
 })
 
-function Contact() {
+function Contact({ embedded = false }: { embedded?: boolean }) {
   const [qrVisible, setQrVisible] = useState(false)
   const [qrMounted, setQrMounted] = useState(false)
   const [loadedSpecimens, setLoadedSpecimens] = useState<Record<string, boolean>>({})
@@ -258,7 +258,7 @@ function Contact() {
         </View>
       </View>
     </ScrollView>
-    <PageNav active='contact' />
+    {!embedded && <PageNav active='contact' />}
 
     <View className={`qr-mask ${qrVisible ? 'qr-mask--visible' : ''}`} catchMove={qrVisible} onClick={() => setQrVisible(false)}>
       {qrMounted && <View className='qr-sheet' onClick={event => event.stopPropagation()}>
