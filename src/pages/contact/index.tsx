@@ -3,6 +3,7 @@ import Taro, { useShareAppMessage } from '@tarojs/taro'
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { catalogSettings } from '@/data/products'
 import SiteHeader from '@/components/SiteHeader'
+import useTabTitleVisible from '@/hooks/useTabTitleVisible'
 import './index.scss'
 
 const OSS = 'https://curtisyan.oss-cn-shenzhen.aliyuncs.com/meisubaocai-mini-app/'
@@ -148,6 +149,7 @@ const SpecimenCard = memo(function SpecimenCard({
 })
 
 function Contact() {
+  const tabTitleVisible = useTabTitleVisible()
   const [qrVisible, setQrVisible] = useState(false)
   const [qrMounted, setQrMounted] = useState(false)
   const [loadedSpecimens, setLoadedSpecimens] = useState<Record<string, boolean>>({})
@@ -202,7 +204,7 @@ function Contact() {
       <View className='safe-page contact'>
         <SiteHeader />
         <Text className='eyebrow'>HELLO, MEISU</Text>
-        <View className='title-block'>
+        <View className={`title-block tab-title ${tabTitleVisible ? 'tab-title--visible' : ''}`}>
           <Text className='title-line'>做包装，</Text>
           <Text className='title-line title-line--serif'>先聊产品。</Text>
         </View>

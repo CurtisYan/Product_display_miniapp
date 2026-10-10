@@ -2,12 +2,14 @@ import { ScrollView, Text, View } from '@tarojs/components'
 import { useMemo, useState } from 'react'
 import { useShareAppMessage } from '@tarojs/taro'
 import SiteHeader from '@/components/SiteHeader'
+import useTabTitleVisible from '@/hooks/useTabTitleVisible'
 import SkylineProductDetail from '@/components/SkylineProductDetail'
 import CachedImage from '@/components/CachedImage'
 import { categories, products, type Product } from '@/data/products'
 import './index.scss'
 
 export default function Category() {
+  const tabTitleVisible = useTabTitleVisible()
   const [active, setActive] = useState(categories[0])
   const [selected, setSelected] = useState<Product | null>(null)
   const list = useMemo(() => products.filter(product => product.category === active), [active])
@@ -26,7 +28,7 @@ export default function Category() {
       <View className='safe-page category'>
         <SiteHeader />
         <Text className='eyebrow'>MATERIAL INDEX</Text>
-        <View className='title-block'>
+        <View className={`title-block tab-title ${tabTitleVisible ? 'tab-title--visible' : ''}`}>
           <Text className='title-line'>按材料，</Text>
           <Text className='title-line title-line--serif'>重新排列。</Text>
         </View>

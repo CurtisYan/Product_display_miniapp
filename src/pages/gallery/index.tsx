@@ -2,6 +2,7 @@ import { Image, Input, ScrollView, Text, View } from '@tarojs/components'
 import Taro, { useDidHide, useDidShow, useLoad, useShareAppMessage, useShareTimeline } from '@tarojs/taro'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import SiteHeader from '@/components/SiteHeader'
+import useTabTitleVisible from '@/hooks/useTabTitleVisible'
 import CachedImage from '@/components/CachedImage'
 import SkylineProductDetail from '@/components/SkylineProductDetail'
 import { catalogSettings, products, type Product } from '@/data/products'
@@ -9,6 +10,7 @@ import { buildProductShare } from '@/utils/share'
 import './index.scss'
 
 export default function Gallery() {
+  const tabTitleVisible = useTabTitleVisible()
   const [selected, setSelected] = useState<Product | null>(null)
   const [keyword, setKeyword] = useState('')
   const [heroIndex, setHeroIndex] = useState(0)
@@ -151,7 +153,7 @@ export default function Gallery() {
       <View className={`safe-page gallery ${!pageActive || selected ? 'gallery--paused' : ''}`}>
         <SiteHeader />
         <Text className='eyebrow'>PACKAGING MATERIALS · {new Date().getFullYear()}</Text>
-        <View className='title-block'><Text className='title-line'>{catalogSettings.headlinePrimary}</Text><Text className='title-line title-line--serif'>{catalogSettings.headlineSecondary}</Text></View>
+        <View className={`title-block tab-title ${tabTitleVisible ? 'tab-title--visible' : ''}`}><Text className='title-line'>{catalogSettings.headlinePrimary}</Text><Text className='title-line title-line--serif'>{catalogSettings.headlineSecondary}</Text></View>
         <Text className='intro'>{catalogSettings.intro}</Text>
 
         <View
