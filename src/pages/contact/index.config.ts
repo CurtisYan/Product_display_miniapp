@@ -3,6 +3,5 @@ export default definePageConfig({
   enableShareAppMessage:true,
   disableScroll:true,
   renderer:'skyline',
-  componentFramework:'glass-easel',
-  usingComponents:{}
+  componentFramework:'glass-easel'
 })

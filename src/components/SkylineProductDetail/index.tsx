@@ -3,6 +3,7 @@ import Taro from '@tarojs/taro'
 import { useEffect, useState } from 'react'
 import { products, type Product } from '@/data/products'
 import { saveShareRecord } from '@/utils/share'
+import { goToMainPage } from '@/components/PageNav'
 import './index.scss'
 
 export default function SkylineProductDetail({ product, onClose }: { product: Product | null; onClose: () => void }) {
@@ -73,7 +74,7 @@ export default function SkylineProductDetail({ product, onClose }: { product: Pr
           <View className='sky-detail-rule' />
           <Text className='sky-detail-copy'>{shown.description}</Text>
           <View className='sky-detail-actions'>
-            <Button onClick={() => { onClose(); Taro.switchTab({ url: '/pages/contact/index' }) }}>咨询这种材料 ↗</Button>
+            <Button onClick={() => { onClose(); void goToMainPage('contact') }}>咨询这种材料 ↗</Button>
             <Button onClick={onClose}>继续浏览</Button>
           </View>
         </View>

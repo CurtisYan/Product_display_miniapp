@@ -4,6 +4,5 @@ export default definePageConfig({
   enableShareTimeline:true,
   disableScroll:true,
   renderer:'skyline',
-  componentFramework:'glass-easel',
-  usingComponents:{}
+  componentFramework:'glass-easel'
 })

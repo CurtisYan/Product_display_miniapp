@@ -3,6 +3,7 @@ import Taro from '@tarojs/taro'
 import { useEffect, useRef, useState } from 'react'
 import { products, type Product } from '@/data/products'
 import { saveShareRecord } from '@/utils/share'
+import { goToMainPage } from '@/components/PageNav'
 import './index.scss'
 
 export default function ProductDetail({ product, onClose }: { product: Product | null; onClose: () => void }) {
@@ -133,7 +134,7 @@ export default function ProductDetail({ product, onClose }: { product: Product |
           <Text className='detail-image-tip'>{product.images.length > 1 ? `点击放大 · 左右滑动查看 ${product.images.length} 张图片` : '点击图片放大查看'}</Text>
           <Text className='detail-copy'>{product.description}</Text>
           <View className='detail-actions'>
-            <Button onClick={() => { onClose(); Taro.switchTab({ url: '/pages/contact/index' }) }}>咨询这种材料 ↗</Button>
+            <Button onClick={() => { onClose(); void goToMainPage('contact') }}>咨询这种材料 ↗</Button>
             <Button onClick={close}>继续浏览</Button>
           </View>
         </View>
