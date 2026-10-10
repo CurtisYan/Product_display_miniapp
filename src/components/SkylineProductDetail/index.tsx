@@ -1,6 +1,6 @@
-import { Button, Image, PageContainer, ScrollView, ShareElement, Swiper, SwiperItem, Text, View } from '@tarojs/components'
+import { Button, Image, PageContainer, ScrollView, Swiper, SwiperItem, Text, View } from '@tarojs/components'
 import Taro from '@tarojs/taro'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { products, type Product } from '@/data/products'
 import { saveShareRecord } from '@/utils/share'
 import './index.scss'
@@ -9,9 +9,6 @@ export default function SkylineProductDetail({ product, onClose }: { product: Pr
   const [lastProduct, setLastProduct] = useState<Product | null>(product)
   const [imageIndex, setImageIndex] = useState(0)
   const [imageHeights, setImageHeights] = useState<Record<string, number>>({})
-  const scrollTop = useRef(0)
-  const dragStartY = useRef(0)
-  const canQuickClose = useRef(false)
   useEffect(() => { if (product) { setLastProduct(product); setImageIndex(0) } }, [product])
   const shown = product || lastProduct
   const contentWidth = Taro.getWindowInfo().windowWidth * (1 - 68 / 750)
@@ -27,15 +24,6 @@ export default function SkylineProductDetail({ product, onClose }: { product: Pr
   const previewImage = (src: string) => {
     if (!shown) return
     Taro.previewImage({ current: src, urls: shown.images })
-  }
-  const startQuickClose = (event: any) => {
-    dragStartY.current = event.touches?.[0]?.clientY || 0
-    canQuickClose.current = scrollTop.current <= 2
-  }
-  const finishQuickClose = (event: any) => {
-    const endY = event.changedTouches?.[0]?.clientY || dragStartY.current
-    if (canQuickClose.current && endY - dragStartY.current > 42) onClose()
-    canQuickClose.current = false
   }
 
   useEffect(() => {
@@ -53,7 +41,7 @@ export default function SkylineProductDetail({ product, onClose }: { product: Pr
   return <PageContainer
     show={Boolean(product)}
     position='bottom'
-    duration={520}
+    duration={400}
     zIndex={90}
     overlay
     closeOnSlideDown
@@ -62,9 +50,9 @@ export default function SkylineProductDetail({ product, onClose }: { product: Pr
     onClickOverlay={onClose}
     onAfterLeave={() => { if (product) onClose() }}
   >
-    <View className='sky-detail' onTouchStart={startQuickClose} onTouchEnd={finishQuickClose} onTouchCancel={finishQuickClose}>
+    <View className='sky-detail'>
       <View className='sky-detail-handle-area' onClick={onClose}><View className='sky-detail-handle' /></View>
-      <ScrollView scrollY className='sky-detail-scroll' showScrollbar={false} onScroll={event => { scrollTop.current = event.detail.scrollTop }}>
+      <ScrollView scrollY className='sky-detail-scroll' showScrollbar={false}>
         <View className='sky-detail-inner'>
           <View className='sky-detail-top'>
             <Text>{productNumber} / {shown.category}</Text>
@@ -72,26 +60,20 @@ export default function SkylineProductDetail({ product, onClose }: { product: Pr
           </View>
           <View className='sky-detail-title'>{shown.name}</View>
           <Text className='sky-detail-subtitle'>{shown.subtitle}</Text>
-          <ShareElement
+          <View
             className='sky-detail-share'
             style={{ height: `${activeImageHeight}px` }}
-            mapkey={`product-${shown.id}`}
-            transform
-            transitionOnGesture
-            duration={520}
-            easingFunction='cubic-bezier(.16,1,.3,1)'
-            rectTweenType='materialRectArc'
           >
             <Swiper className='sky-detail-swiper' circular onChange={event => setImageIndex(event.detail.current)}>
               {shown.images.map(src => <SwiperItem key={src}><Image className='sky-detail-image' src={src} mode='widthFix' onClick={() => previewImage(src)} onLoad={event => recordImageSize(src, event)} showMenuByLongpress /></SwiperItem>)}
             </Swiper>
             {shown.images.length > 1 && <View className='sky-detail-dots'>{shown.images.map((_, index) => <View key={index} className={index === imageIndex ? 'is-active' : ''} />)}</View>}
-          </ShareElement>
+          </View>
           <Text className='sky-detail-tip'>{shown.images.length > 1 ? `点击放大 · 左右滑动查看 ${shown.images.length} 张图片` : '点击图片放大查看'}</Text>
           <View className='sky-detail-rule' />
           <Text className='sky-detail-copy'>{shown.description}</Text>
           <View className='sky-detail-actions'>
-            <Button onClick={() => Taro.redirectTo({ url: '/pages/contact/index' })}>咨询这种材料 ↗</Button>
+            <Button onClick={() => { onClose(); Taro.switchTab({ url: '/pages/contact/index' }) }}>咨询这种材料 ↗</Button>
             <Button onClick={onClose}>继续浏览</Button>
           </View>
         </View>

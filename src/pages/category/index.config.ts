@@ -1,1 +1,1 @@
-export default definePageConfig({navigationStyle:'custom',enableShareAppMessage:true})
+export default definePageConfig({navigationStyle:'custom',enableShareAppMessage:true,usingComponents:{}})

@@ -59,7 +59,7 @@ export default function ProductDetail({ product, onClose }: { product: Product |
   const scheduleDrag = (value: number) => {
     pendingDrag.current = value
     dragYRef.current = value
-    if (!dragTimer.current) dragTimer.current = setTimeout(flushDrag, 32)
+    if (!dragTimer.current) dragTimer.current = setTimeout(flushDrag, 16)
   }
   const stopDragTimer = () => {
     if (dragTimer.current) clearTimeout(dragTimer.current)
@@ -67,8 +67,9 @@ export default function ProductDetail({ product, onClose }: { product: Product |
   }
   const close = () => {
     if (closing) return
+    stopDragTimer()
     setClosing(true)
-    closeTimer.current = setTimeout(onClose, 460)
+    closeTimer.current = setTimeout(onClose, 410)
   }
 
   const touchStart = (event: any) => {
@@ -81,7 +82,7 @@ export default function ProductDetail({ product, onClose }: { product: Product |
     if (!canDrag.current) return
     const currentY = event.touches[0]?.clientY || startY.current
     const distance = currentY - startY.current
-    if (distance > 0) scheduleDrag(Math.min(360, distance * .86))
+    scheduleDrag(distance > 0 ? Math.min(360, distance * .9) : 0)
   }
   const touchEnd = (event: any) => {
     event.stopPropagation()
@@ -106,8 +107,8 @@ export default function ProductDetail({ product, onClose }: { product: Product |
 
   return <View className={`detail-mask ${closing ? 'detail-mask--closing' : ''}`} catchMove onClick={close}>
     <View
-      className={`detail-sheet ${closing ? 'detail-sheet--closing' : ''} ${dragY > 0 ? 'detail-sheet--dragging' : ''}`}
-      style={{ transform: closing ? 'translateY(100%)' : `translateY(${dragY}px)` }}
+      className={`detail-sheet ${closing ? 'detail-sheet--closing' : ''} ${dragY > 0 && !closing ? 'detail-sheet--dragging' : ''}`}
+      style={{ transform: closing ? 'translate3d(0,100%,0)' : `translate3d(0,${dragY}px,0)` }}
       onClick={event => event.stopPropagation()}
       onTouchStart={touchStart}
       onTouchMove={touchMove}
@@ -132,8 +133,8 @@ export default function ProductDetail({ product, onClose }: { product: Product |
           <Text className='detail-image-tip'>{product.images.length > 1 ? `点击放大 · 左右滑动查看 ${product.images.length} 张图片` : '点击图片放大查看'}</Text>
           <Text className='detail-copy'>{product.description}</Text>
           <View className='detail-actions'>
-            <Button onClick={() => Taro.redirectTo({ url: '/pages/contact/index' })}>咨询这种材料 ↗</Button>
-            <Button onClick={onClose}>继续浏览</Button>
+            <Button onClick={() => { onClose(); Taro.switchTab({ url: '/pages/contact/index' }) }}>咨询这种材料 ↗</Button>
+            <Button onClick={close}>继续浏览</Button>
           </View>
         </View>
       </ScrollView>

@@ -1,7 +1,7 @@
-.detail-mask{position:fixed;z-index:80;left:0;right:0;top:0;bottom:0;background:rgba(32,33,29,.38);display:flex;align-items:flex-end;animation:detail-mask-in .34s ease both;transition:background .46s ease}
+.detail-mask{position:fixed;z-index:80;left:0;right:0;top:0;bottom:0;background:rgba(32,33,29,.38);display:flex;align-items:flex-end;animation:detail-mask-in .3s ease both;transition:background .36s ease}
 .detail-mask--closing{background:rgba(32,33,29,0)}
-.detail-sheet{height:78vh;width:100%;position:relative;background:var(--yellow);animation:detail-sheet-in .58s cubic-bezier(.16,1,.3,1) both;transition:transform .42s cubic-bezier(.22,1,.36,1);overflow:hidden}
-.detail-sheet--closing{transition:transform .46s cubic-bezier(.55,.06,.68,.19)}
+.detail-sheet{height:78vh;width:100%;position:relative;background:var(--yellow);animation:detail-sheet-in .48s cubic-bezier(.16,1,.3,1) both;transition:transform .38s cubic-bezier(.32,.72,0,1);overflow:hidden;will-change:transform;backface-visibility:hidden}
+.detail-sheet--closing{transition:transform .4s cubic-bezier(.32,.72,0,1)}
 .detail-sheet--dragging{transition:none}
 .detail-scroll{height:100%;width:100%}
 .detail-inner{min-height:78vh;box-sizing:border-box;padding:68rpx 34rpx 58rpx}
@@ -27,4 +27,4 @@
 .detail-actions button:first-child{background:var(--ink);color:#fff}
 .detail-actions button:last-child{margin-right:0}
 @keyframes detail-mask-in{from{background:rgba(32,33,29,0)}to{background:rgba(32,33,29,.38)}}
-@keyframes detail-sheet-in{from{transform:translateY(105%)}to{transform:translateY(0)}}
+@keyframes detail-sheet-in{from{transform:translate3d(0,105%,0)}to{transform:translate3d(0,0,0)}}

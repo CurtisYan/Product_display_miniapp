@@ -16,7 +16,7 @@ let pendingNavigation: { from: MainPage; target: MainPage } | null = null
 export function goToMainPage(key: MainPage, from?: MainPage) {
   const target = items.find(item => item.key === key)
   if (target && from && from !== key) pendingNavigation = { from, target: key }
-  if (target) Taro.redirectTo({ url: target.url })
+  if (target) Taro.switchTab({ url: target.url })
 }
 
 export default function PageNav({ active }: { active: MainPage }) {
@@ -50,7 +50,7 @@ export default function PageNav({ active }: { active: MainPage }) {
     setCursorIndex(index)
     setTransitioning(true)
     pendingNavigation = { from: active, target: target.key }
-    Taro.redirectTo({ url: target.url }).catch(() => {
+    Taro.switchTab({ url: target.url }).catch(() => {
       pendingNavigation = null
       setCursorIndex(activeIndex)
       setTransitioning(false)

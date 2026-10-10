@@ -3,7 +3,6 @@ import Taro, { usePageScroll, useShareAppMessage } from '@tarojs/taro'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import SiteHeader from '@/components/SiteHeader'
 import ProductDetail from '@/components/ProductDetail'
-import PageNav from '@/components/PageNav'
 import CachedImage from '@/components/CachedImage'
 import { categories, products, type Product } from '@/data/products'
 import './index.scss'
@@ -64,6 +63,5 @@ export default function Category() {
 
     <Text className='gesture-tip'>点击卡片查看材料大图与说明</Text>
     <ProductDetail product={selected} onClose={() => setSelected(null)} />
-    <PageNav active='category' />
   </View>
 }
